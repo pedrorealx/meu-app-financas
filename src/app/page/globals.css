@@ -1,0 +1,13 @@
+/* app/globals.css */
+body {
+  font-family: sans-serif;
+  background: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  max-width: 800px;
+  margin: auto;
+  padding: 1rem;
+}
