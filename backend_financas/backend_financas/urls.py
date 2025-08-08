@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from financas.views import home  # deve existir home dentro de views.py
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', home, name='home'),
 ]

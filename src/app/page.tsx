@@ -6,11 +6,11 @@ import './globals.css'
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend)
 
 const data = {
-  labels: ['Dezembro', 'Janeiro', 'Fevereiro', 'Março', 'Abril'],
+  labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro','Outubro','Novembro','Dezembro',],
   datasets: [
     {
       label: 'Gastos Mensais (R$)',
-      data: [800, 650, 700, 900, 1000],
+      data: [800, 650, 700, 900, 1000, 900 , 111 , 430 , 800 , 1000 , 800, 900 ],
       borderColor: 'rgba(75,192,192,1)',
       tension: 0.2,
     },
