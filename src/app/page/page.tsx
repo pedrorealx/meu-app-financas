@@ -1,7 +1,15 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Line } from 'react-chartjs-2'
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from 'chart.js'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Legend
+} from 'chart.js'
 import './globals.css'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend)
@@ -13,8 +21,21 @@ const meses = [
 ]
 
 export default function Home() {
-  const [valores, setValores] = useState([400, 650, 200, 700, 1000, 500, 111, 430, 350, 100, 800, 950])
-  const [tema, setTema] = useState<'light' | 'dark'>('light')  // Estado do tema
+  const [valores, setValores] = useState([
+    400, 650, 200, 700, 1000, 500, 111, 430, 350, 100, 800, 950
+  ])
+  const [tema, setTema] = useState<'light' | 'dark'>('light')
+
+  useEffect(() => {
+    const temaSalvo = localStorage.getItem('tema') as 'light' | 'dark' | null
+    if (temaSalvo) setTema(temaSalvo)
+  }, [])
+
+  const alternarTema = () => {
+    const novoTema = tema === 'light' ? 'dark' : 'light'
+    setTema(novoTema)
+    localStorage.setItem('tema', novoTema)
+  }
 
   const getStatus = (valor: number) => {
     if (valor > meta) return { texto: 'Fora da meta', classe: 'foraDeMeta' }
@@ -51,17 +72,19 @@ export default function Home() {
     setValores(novosValores)
   }
 
-  // Função que alterna tema
-  const alternarTema = () => {
-    setTema(tema === 'light' ? 'dark' : 'light')
+  // Estilo inline para inputs conforme tema
+  const inputStyle = {
+    backgroundColor: tema === 'dark' ? '#333' : '#fff',
+    color: tema === 'dark' ? '#f0f0f0' : '#000',
+    borderColor: tema === 'dark' ? '#555' : '#cbd5e0'
   }
 
   return (
-    <main className={`p-4 ${tema === 'dark' ? 'tema-escuro' : 'tema-claro'}`}>
-      <button
-        onClick={alternarTema}
-        className="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-      >
+    <main
+      className={tema === 'dark' ? 'tema-escuro' : 'tema-claro'}
+      style={{ transition: 'background-color 0.4s ease, color 0.4s ease', minHeight: '100vh', padding: '1rem' }}
+    >
+      <button onClick={alternarTema} className="botao-neon mb-4">
         Alternar Tema
       </button>
 
@@ -84,6 +107,7 @@ export default function Home() {
                   value={valores[index]}
                   onChange={(e) => atualizarValor(index, Number(e.target.value))}
                   className="border p-1 rounded w-24"
+                  style={inputStyle}
                 />
                 <span className={status.classe}>{status.texto}</span>
               </div>

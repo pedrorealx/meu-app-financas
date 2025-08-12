@@ -5,12 +5,24 @@ body {
   background-color: #ffffff;
   color: #1a202c;
   padding: 0;
+  height: 100%;
+}
+
+.graph-container {
+  flex-grow: 1;  /* ocupa todo o espaço disponível */
+  width: 100%;
+  height: 100%;
 }
 
 main {
-  padding: 1rem;
-  max-width: 900px;
-  margin: 0 auto;
+  min-height: 100vh;
+  min-width: 100vw;  /* ocupa 100% da largura da viewport */
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  /* background-color removido para tema funcionar */
 }
 
 h1 {
@@ -23,7 +35,7 @@ h2 {
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #fdfdfd;
+  color: #240036;
 }
 
 section {
@@ -93,17 +105,56 @@ strong {
 
 /* Tema claro (padrão) */
 .tema-claro {
-  background-color: white;
-  color: black;
+  background:
+    radial-gradient(circle at 20% 20%, #e8f0ff 25%, transparent 60%),
+    radial-gradient(circle at 80% 80%, #c8d9ff 20%, transparent 55%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.015),
+      rgba(0, 0, 0, 0.015) 2px,
+      transparent 2px,
+      transparent 8px
+    ),
+    linear-gradient(135deg, #f7fbff 0%, #e1e9ff 100%);
+  color: #1a1a1a;
+  background-repeat: no-repeat, no-repeat, repeat, no-repeat;
+  background-size: 450px 450px, 450px 450px, 25px 25px, 100% 100%;
+  background-attachment: fixed, fixed, scroll, fixed;
+  box-shadow:
+    inset 0 0 60px 15px rgba(255, 255, 255, 0.6),
+       inset 0 0 80px 25px #b7c5ee88;
+  transition: background 0.6s ease, color 0.6s ease;
+}
+
+
+
+.tema-claro input {
+  background-color: #fff;
+  color: #000;
+  border-color: #cbd5e0;
 }
 
 /* Tema escuro */
 .tema-escuro {
-  background-color: #121212;
+  background:
+    radial-gradient(circle at 20% 20%, #2a2f38 15%, transparent 45%),
+    radial-gradient(circle at 80% 80%, #232830 15%, transparent 45%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.03),
+      rgba(255, 255, 255, 0.03) 2px,
+      transparent 2px,
+      transparent 6px
+    ),
+    #121212;
   color: #f0f0f0;
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-size: 400px 400px, 400px 400px, 20px 20px;
+  background-attachment: fixed;
+  box-shadow: inset 0 0 100px #000000cc;
+  transition: background 0.5s ease, color 0.5s ease;
 }
 
-/* Ajustes adicionais para inputs no tema escuro */
 .tema-escuro input {
   background-color: #333;
   color: #f0f0f0;
@@ -111,6 +162,73 @@ strong {
 }
 
 /* Botão estilizado */
-button {
+/* Efeito neon mais intenso e visível em qualquer fundo */
+/* Cores e animações neon */
+@keyframes neonPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px var(--neon-color), 0 0 40px var(--neon-color) inset;
+  }
+  50% {
+    box-shadow: 0 0 40px var(--neon-color), 0 0 80px var(--neon-color) inset;
+  }
+}
+
+@keyframes neonBorder {
+  0% {
+    border-color: var(--neon-color);
+  }
+  50% {
+    border-color: var(--neon-color-alt);
+  }
+  100% {
+    border-color: var(--neon-color);
+  }
+}
+
+/* Tema claro */
+.tema-claro {
+  --neon-color: #00b3ff;
+  --neon-color-alt: #00e5ff;
+}
+
+/* Tema escuro */
+.tema-escuro {
+  --neon-color: #00f7ff;
+  --neon-color-alt: #00d1ff;
+}
+
+/* Classe especial para botões neon */
+.botao-neon {
   cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 4px 10px;
+  border: 2px solid var(--neon-color);
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  animation: neonPulse 1.5s infinite alternate, neonBorder 3s infinite;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  color: var(--neon-color);
+}
+
+.botao-neon:hover {
+  background: var(--neon-color);
+  color: #0a0a0a;
+  box-shadow:
+    0 0 20px var(--neon-color),
+    0 0 40px var(--neon-color),
+    0 0 60px var(--neon-color),
+    0 0 80px var(--neon-color);
+  transform: scale(1.05);
+}
+
+.botao-neon:active {
+  transform: scale(0.98);
+  box-shadow: 0 0 8px var(--neon-color), 0 0 16px var(--neon-color);
+}
+
+.botao-neon:focus {
+  outline: none;
 }

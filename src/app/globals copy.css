@@ -106,7 +106,35 @@ strong {
 /* Tema claro (padrão) */
 .tema-claro {
   background:
-       radial-gradient(circle at 20% 20%, #e8f0ff 25%, transparent 45%),
+    radial-gradient(circle at 20% 20%, #f0f4ff 20%, transparent 50%),
+    radial-gradient(circle at 80% 80%, #dbe8ff 15%, transparent 45%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.02),
+      rgba(0, 0, 0, 0.02) 2px,
+      transparent 2px,
+      transparent 6px
+    ),
+    #ffffff;
+  color: #222222;
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-size: 400px 400px, 400px 400px, 20px 20px;
+  background-attachment: fixed;
+  box-shadow: inset 0 0 50px #ccccccaa;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+
+.tema-claro input {
+  background-color: #fff;
+  color: #000;
+  border-color: #cbd5e0;
+}
+
+/* Tema escuro */
+.tema-claro {
+  background:
+        radial-gradient(circle at 20% 20%, #e8f0ff 25%, transparent 45%),
     radial-gradient(circle at 80% 80%, #c8d9ff 20%, transparent 45%),
     repeating-linear-gradient(
       45deg,
@@ -122,37 +150,10 @@ strong {
   background-attachment: fixed, fixed, scroll, fixed;
   box-shadow:
     inset 0 0 60px 15px rgba(255, 255, 255, 0.6),
-    inset 0 0 80px 25px #b7c5ee88;
+   inset 0 0 80px 25px #b7c5ee88;
   transition: background 0.6s ease, color 0.6s ease;
 }
 
-
-.tema-claro input {
-  background-color: #fff;
-  color: #000;
-  border-color: #cbd5e0;
-}
-
-/* Tema escuro */
-.tema-escuro {
-  background:
-    radial-gradient(circle at 20% 20%, #2a2f38 15%, transparent 45%),
-    radial-gradient(circle at 80% 80%, #232830 15%, transparent 45%),
-    repeating-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.03),
-      rgba(255, 255, 255, 0.03) 2px,
-      transparent 2px,
-      transparent 6px
-    ),
-    #121212;
-  color: #f0f0f0;
-  background-repeat: no-repeat, no-repeat, repeat;
-  background-size: 400px 400px, 400px 400px, 20px 20px;
-  background-attachment: fixed;
-  box-shadow: inset 0 0 100px #000000cc;
-  transition: background 0.5s ease, color 0.5s ease;
-}
 
 .tema-escuro input {
   background-color: #333;
@@ -250,4 +251,3 @@ h1, h2, label, p, strong, span {
 }
 
 /* Botão neon já está estilizado para alterar conforme tema */
-
