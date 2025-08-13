@@ -36,10 +36,13 @@ h2 {
   font-weight: 600;
   margin-bottom: 0.5rem;
   color: #240036;
+  text-align: center;
+  margin-top: 10px;
 }
 
 section {
   margin-bottom: 2rem;
+  text-align: center;
 }
 
 .grid {
@@ -250,3 +253,58 @@ h1, h2, label, p, strong, span {
 }
 
 /* Botão neon já está estilizado para alterar conforme tema */
+/* Container do gráfico com fundo, borda e sombra */
+.graph-container {
+  flex-grow: 1;
+  width: 100%;
+  min-height: 400px; /* altura mínima para o gráfico */
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.85); /* leve fundo branco translúcido */
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* No tema escuro, mudar o fundo e sombra para combinar */
+.tema-escuro .graph-container {
+  background-color: rgba(30, 30, 35, 0.85);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+}
+
+/* Ajustar o canvas do gráfico para preencher o container */
+.graph-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 450px;
+  border-radius: 16px;
+  transition: filter 0.4s ease;
+}
+
+/* Efeito hover no gráfico: leve brilho */
+.graph-container:hover canvas {
+  filter: drop-shadow(0 0 6px rgba(0, 179, 255, 0.7));
+}
+
+/* Pontos do gráfico (via Chart.js) - sobrescrever cores */
+.chartjs-render-monitor {
+  border-radius: 16px;
+}
+
+/* Texto do label do gráfico */
+.chartjs-tooltip {
+  font-family: system-ui, sans-serif;
+  font-size: 0.9rem;
+}
+
+/* Suavizar transição de cores do body no tema */
+body {
+  transition: background-color 0.6s ease, color 0.6s ease;
+}
+
+/* Botão já estilizado, mas adiciona cursor pointer e sombra */
+.botao-neon {
+  cursor: pointer;
+  box-shadow: 0 0 12px var(--neon-color);
+  user-select: none;
+}
+

@@ -90,12 +90,14 @@ export default function Home() {
 
       <h1 className="text-2xl font-bold mb-4">Resumo Financeiro</h1>
 
-      <section className="mb-8">
-        <Line data={data} />
+      {/* Container do gráfico com a classe graph-container para largura e altura */}
+      <section className="mb-8 graph-container" style={{ minHeight: '400px' }}>
+        {/* Passando width e height para o gráfico */}
+        <Line data={data} width={800} height={400} options={{ maintainAspectRatio: false }} />
       </section>
 
       <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">Editar Valores Mensais</h2>
+        <h2 className="text-xl font-semibold mb-2" >Editar Valores Mensais</h2>
         <div className="grid grid-cols-2 gap-2">
           {meses.map((mes, index) => {
             const status = getStatus(valores[index])
