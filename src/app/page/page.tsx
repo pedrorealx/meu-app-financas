@@ -12,6 +12,8 @@ import {
 } from 'chart.js'
 import './globals.css'
 
+
+
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend)
 
 const meta = 500
