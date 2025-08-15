@@ -29,6 +29,7 @@ h1 {
   font-size: 1.75rem;
   font-weight: 700;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 h2 {
@@ -41,9 +42,14 @@ h2 {
 }
 
 section {
+  display: flex;           /* ativa flexbox */
+  flex-direction: column;  /* organiza em coluna */
+  align-items: center;     /* centraliza horizontalmente */
+  justify-content: center; /* centraliza verticalmente */
   margin-bottom: 2rem;
   text-align: center;
 }
+
 
 .grid {
   display: grid;
@@ -61,6 +67,7 @@ label {
   width: 6rem;
   font-weight: 600;
   color: #ffffff;
+  
 }
 
 input[type="number"] {
@@ -69,6 +76,7 @@ input[type="number"] {
   border-radius: 0.25rem;
   width: 6rem;
   font-size: 1rem;
+  align-items: center;
 }
 
 input[type="number"]:focus {
@@ -191,20 +199,18 @@ strong {
 
 /* Tema claro */
 .tema-claro {
-  --neon-color: #00b3ff;
-  --neon-color-alt: #00e5ff;
+  --neon-color: #23292b;
+  --neon-color-alt: #081415;
 }
 
 /* Tema escuro */
 .tema-escuro {
-  --neon-color: #00f7ff;
-  --neon-color-alt: #00d1ff;
+  --neon-color: #a8a8a8;
+  --neon-color-alt: #f4f4f4;
 }
-
-/* Classe especial para botões neon */
 .botao-neon {
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.9rem; /* texto um pouco menor */
   font-weight: bold;
   padding: 4px 10px;
   border: 2px solid var(--neon-color);
@@ -215,7 +221,32 @@ strong {
   transition: all 0.3s ease;
   background-color: transparent;
   color: var(--neon-color);
+  position: fixed;    /* fixa na tela */
+  top: 10px;          /* distância do topo */
+  right: 10px;        /* distância da direita */
+  z-index: 1000;      /* fica acima dos outros elementos */
 }
+
+
+.botao-config {
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 4px 10px;
+  border: 2px solid var(--neon-color);
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  align-items: center;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  color: var(--neon-color);
+  position: fixed;    
+  top: 10px;          
+  left: 10px;       /* muda de left para right */
+  z-index: 1000;      
+}
+
 
 .botao-neon:hover {
   background: var(--neon-color);
@@ -236,6 +267,7 @@ strong {
 .botao-neon:focus {
   outline: none;
 }
+
 /* Remova cor fixa em títulos para herdar do tema */
 h1, h2, label, p, strong, span {
   color: inherit;
