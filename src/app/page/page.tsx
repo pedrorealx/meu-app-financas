@@ -169,7 +169,7 @@ export default function Home() {
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
           <section 
             className="mb-8 graph-container" 
-            style={{ height: '350px', maxWidth: '700px', flex: 1 }}
+            style={{ height: '250px', maxWidth: '610px', flex: 1 }}
           >
             <Line data={data} options={{ maintainAspectRatio: false }} />
           </section>
