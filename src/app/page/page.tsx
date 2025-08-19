@@ -12,6 +12,8 @@ import {
   Legend
 } from 'chart.js'
 import './globals.css'
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend)
 
@@ -23,13 +25,14 @@ const meses = [
 
 export default function Home() {
   const router = useRouter()
-  const [valores, setValores] = useState([
-    400, 650, 200, 700, 1000, 500, 111, 430, 350, 100, 800, 950
-  ])
-  const [tema, setTema] = useState<'light' | 'dark'>('light')
 
-  // ADICIONADO: Estado para abrir/fechar menu de configurações
+  // Estados
+  const [valores, setValores] = useState([400, 650, 200, 700, 1000, 500, 111, 430, 350, 100, 800, 950])
+  const [tema, setTema] = useState<'light' | 'dark'>('light')
   const [abrirConfig, setAbrirConfig] = useState(false)
+  
+  // **Estado do calendário**
+  const [dataSelecionada, setDataSelecionada] = useState<Date | null>(new Date())
 
   useEffect(() => {
     const temaSalvo = localStorage.getItem('tema') as 'light' | 'dark' | null
@@ -43,7 +46,7 @@ export default function Home() {
   }
 
   const irParaLogin = () => {
-    router.push('/login') // ajuste o caminho se necessário
+    router.push('/login')
   }
 
   const getStatus = (valor: number) => {
@@ -94,7 +97,6 @@ export default function Home() {
     >
       {/* Botões de ação */}
       <div className="flex gap-2 mb-4">
-        {/* ADICIONADO: Botão Configurações */}
         <button 
           className="botao-config" 
           onClick={() => setAbrirConfig(!abrirConfig)}
@@ -102,13 +104,12 @@ export default function Home() {
           ⚙
         </button>
 
-        {/* Botão alternar tema */}
         <button onClick={alternarTema} className="botao-neon">
-          Alternar Tema
+          ☾/☼
         </button>
       </div>
 
-      {/* ADICIONADO: Menu dropdown de configurações */}
+      {/* Menu dropdown de configurações */}
       {abrirConfig && (
         <div 
           className="menu-config"
@@ -145,43 +146,65 @@ export default function Home() {
 
       <h1 className="text-2xl font-bold mb-4">Resumo Financeiro</h1>
 
-      {/* Gráfico centralizado */}
-      <section 
-        className="mb-8 graph-container" 
-        style={{ height: '350px', maxWidth: '1000px', margin: '0 auto' }}
-      >
-        <Line data={data} options={{ maintainAspectRatio: false }} />
-      </section>
+      <div className="cards-container">
+        <section className="card-info">
+          <h2>Meta de Economia</h2>
+          <p>💰 R$ {meta}/mês</p>
+        </section>
 
-      {/* Valores mensais editáveis */}
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2" >Editar Valores Mensais</h2>
-        <div className="grid grid-cols-2 gap-2">
-          {meses.map((mes, index) => {
-            const status = getStatus(valores[index])
-            return (
-              <div key={mes} className="flex items-center gap-2">
-                <label className="w-24">{mes}:</label>
-                <input
-                  type="number"
-                  value={valores[index]}
-                  onChange={(e) => atualizarValor(index, Number(e.target.value))}
-                  className="border p-1 rounded w-24"
-                  style={inputStyle}
-                />
-                <span className={status.classe}>{status.texto}</span>
-              </div>
-            )
-          })}
+        <section className="card-info">
+          <h2>Total</h2>
+          <p><strong>R$ {total}</strong></p>
+        </section>
+
+        {/* Gráfico */}
+        <section 
+          className="mb-8 graph-container" 
+          style={{ height: '350px', maxWidth: '1000px', margin: '0 auto' }}
+        >
+          <Line data={data} options={{ maintainAspectRatio: false }} />
+        </section>
+
+        {/* Gráfico + Calendário lado a lado */}
+        <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+          <section 
+            className="mb-8 graph-container" 
+            style={{ height: '350px', maxWidth: '700px', flex: 1 }}
+          >
+            <Line data={data} options={{ maintainAspectRatio: false }} />
+          </section>
+
+          <div>
+            <Calendar
+              value={dataSelecionada}
+              
+            />
+          </div>
         </div>
-      </section>
 
-      {/* Meta */}
-      <section>
-        <h2 className="text-xl font-semibold mb-2">Meta de Economia</h2>
-        <p>💰 Meta: R$ {meta}/mês</p>
-        <p>Total: <strong>R$ {total}</strong></p>
-      </section>
+        {/* Valores mensais editáveis */}
+        <section className="mb-8">
+          <h2 className="text-xl font-semibold mb-2">Editar Valores Mensais</h2>
+          <div className="grid grid-cols-2 gap-2">
+            {meses.map((mes, index) => {
+              const status = getStatus(valores[index])
+              return (
+                <div key={mes} className="flex items-center gap-2">
+                  <label className="w-24">{mes}:</label>
+                  <input
+                    type="number"
+                    value={valores[index]}
+                    onChange={(e) => atualizarValor(index, Number(e.target.value))}
+                    className="border p-1 rounded w-24"
+                    style={inputStyle}
+                  />
+                  <span className={status.classe}>{status.texto}</span>
+                </div>
+              )
+            })}
+          </div>
+        </section>
+      </div>
     </main>
   )
 }

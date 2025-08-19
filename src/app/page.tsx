@@ -104,7 +104,7 @@ export default function Home() {
 
         {/* Botão alternar tema */}
         <button onClick={alternarTema} className="botao-neon">
-          Alternar Tema
+          ☾/☼
         </button>
       </div>
 
