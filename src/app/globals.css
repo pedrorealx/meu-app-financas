@@ -6,45 +6,78 @@ body {
   color: #1a202c;
   padding: 0;
   height: 100%;
+  transition: background-color 0.6s ease, color 0.6s ease;
 }
 
-.graph-container {
-  flex-grow: 1;  /* ocupa todo o espaço disponível */
-  width: 100%;
-  height: 100%;
+.tema-escuro {
+  background:
+    radial-gradient(circle at 20% 20%, #2a2f38 15%, transparent 45%),
+    radial-gradient(circle at 80% 80%, #232830 15%, transparent 45%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.03),
+      rgba(255, 255, 255, 0.03) 2px,
+      transparent 2px,
+      transparent 6px
+    ),
+    #121212;
+  color: #f0f0f0;
 }
 
+
+.tema-claro {
+  background:
+       radial-gradient(circle at 20% 20%, #e8f0ff 25%, transparent 45%),
+    radial-gradient(circle at 80% 80%, #c8d9ff 20%, transparent 45%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.015),
+      rgba(0, 0, 0, 0.015) 2px,
+      transparent 2px,
+      transparent 6px
+    ),
+    linear-gradient(135deg, #f7fbff 0%, #e1e9ff 100%);
+  color: #1a1a1a;
+}
+
+/* Main layout */
 main {
   min-height: 100vh;
-  min-width: 100vw;  /* ocupa 100% da largura da viewport */
+  min-width: 100vw;
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  /* background-color removido para tema funcionar */
 }
 
+/* Títulos */
 h1 {
   font-size: 1.75rem;
   font-weight: 700;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 h2 {
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #240036;
-  text-align: center;
   margin-top: 10px;
+  text-align: center;
 }
 
+/* Sections */
 section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 2rem;
   text-align: center;
 }
 
+/* Grid e flex utilitários */
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -57,10 +90,10 @@ section {
   gap: 0.5rem;
 }
 
+/* Inputs e labels */
 label {
   width: 6rem;
   font-weight: 600;
-  color: #ffffff;
 }
 
 input[type="number"] {
@@ -75,236 +108,258 @@ input[type="number"]:focus {
   outline: none;
   border-color: #3182ce;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.6);
-  align-items: center;
 }
 
-p {
+/* Textos e strong */
+p, strong, span {
   font-size: 1rem;
   margin: 0.25rem 0;
-  color: #ffffff;
-  align-items: center;
 }
 
 strong {
   font-weight: 700;
-  color: #ffffff;
-  align-items: center;
 }
 
-.foraDeMeta {
-  color: red;
-  font-weight: bold;
+/* Status cores */
+.foraDeMeta { color: red; font-weight: bold; }
+.dentroDaMeta { color: green; font-weight: bold; }
+.naMeta { color: orange; font-weight: bold; }
+
+/* Cards */
+.cards-container {
+  display: flex;
+  gap: 16px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.dentroDaMeta {
-  color: green;
-  font-weight: bold;
+.card-info {
+  flex: 1;
+  min-width: 200px;
+  max-width: 280px;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.2s ease-in-out, background-color 0.4s ease, box-shadow 0.4s ease;
+  background-color: rgba(255, 255, 255, 0.85);
+  border: 2px solid var(--neon-color);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15), 0 0 10px var(--neon-color);
 }
 
-.naMeta {
-  color: orange;
-  font-weight: bold;
+.card-info:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 0 15px var(--neon-color);
 }
 
-.tema-claro {
-  background:
-    radial-gradient(circle at 20% 20%, #e8f0ff 25%, transparent 45%),
-    radial-gradient(circle at 80% 80%, #c8d9ff 20%, transparent 45%),
-    repeating-linear-gradient(
-      45deg,
-      rgba(0, 0, 0, 0.015),
-      rgba(0, 0, 0, 0.015) 2px,
-      transparent 2px,
-      transparent 8px
-    ),
-    linear-gradient(135deg, #f7fbff 0%, #e1e9ff 100%);
-  color: #1a1a1a;
-  background-repeat: no-repeat, no-repeat, repeat, no-repeat;
-  background-size: 450px 450px, 450px 450px, 25px 25px, 100% 100%;
-  background-attachment: fixed, fixed, scroll, fixed;
-  box-shadow:
-    inset 0 0 60px 15px rgba(255, 255, 255, 0.6),
-       inset 0 0 80px 25px #b7c5ee88;
-  transition: background 0.6s ease, color 0.6s ease;
+.card-info h2 { font-size: 1.2rem; margin-bottom: 8px; color: inherit; }
+.card-info p { font-size: 1rem; margin: 0; color: inherit; }
+.card-info strong { color: lime; font-size: 1.3rem; }
+
+.tema-escuro .card-info {
+  background-color: rgba(30, 30, 35, 0.85);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.5), 0 0 10px var(--neon-color);
 }
 
+/* Gráficos */
+.graph-container {
+  flex-grow: 1;
+  width: 75%;
+  min-height: 270px;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+  
+}
 
+.tema-escuro .graph-container {
+  background-color: rgba(30,30,35,0.85);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+}
 
-.tema-claro input {
+.graph-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 450px;
+  border-radius: 16px;
+}
+
+/* Layout gráfico + calendário lado a lado */
+.flex-wrap-container {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+/* Calendário */
+.calendar-container {
+  max-width: 350px;
+  width: 100%;
+}
+
+.react-calendar {
+  width: 100%;
+  border: 2px solid var(--neon-color);
+  border-radius: 8px;
+  padding: 10px;
   background-color: #fff;
   color: #000;
-  border-color: #cbd5e0;
 }
 
-/* Tema escuro */
-.tema-escuro {
-  background:
-    radial-gradient(circle at 20% 20%, #2a2f38 15%, transparent 45%),
-    radial-gradient(circle at 80% 80%, #232830 15%, transparent 45%),
-    repeating-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.03),
-      rgba(255, 255, 255, 0.03) 2px,
-      transparent 2px,
-      transparent 6px
-    ),
-    #121212;
-  color: #f0f0f0;
-  background-repeat: no-repeat, no-repeat, repeat;
-  background-size: 400px 400px, 400px 400px, 20px 20px;
-  background-attachment: fixed;
-  box-shadow: inset 0 0 100px #000000cc;
-  transition: background 0.5s ease, color 0.5s ease;
-}
-
-.tema-escuro input {
-  background-color: #333;
+.tema-escuro .react-calendar {
+  background-color: #222;
   color: #f0f0f0;
   border-color: #555;
 }
 
-/* Botão estilizado */
-/* Efeito neon mais intenso e visível em qualquer fundo */
-/* Cores e animações neon */
+/* Botões neon */
 @keyframes neonPulse {
-  0%, 100% {
-    box-shadow: 0 0 20px var(--neon-color), 0 0 40px var(--neon-color) inset;
-  }
-  50% {
-    box-shadow: 0 0 40px var(--neon-color), 0 0 80px var(--neon-color) inset;
-  }
+  0%,100% { box-shadow: 0 0 20px var(--neon-color),0 0 40px var(--neon-color) inset; }
+  50% { box-shadow: 0 0 40px var(--neon-color),0 0 80px var(--neon-color) inset; }
 }
 
 @keyframes neonBorder {
-  0% {
-    border-color: var(--neon-color);
-  }
-  50% {
-    border-color: var(--neon-color-alt);
-  }
-  100% {
-    border-color: var(--neon-color);
-  }
+  0%,100% { border-color: var(--neon-color); }
+  50% { border-color: var(--neon-color-alt); }
 }
 
-/* Tema claro */
-.tema-claro {
-  --neon-color: #00b3ff;
-  --neon-color-alt: #00e5ff;
-}
+.tema-claro { --neon-color: #23292b; --neon-color-alt: #081415; }
+.tema-escuro { --neon-color: #a8a8a8; --neon-color-alt: #f4f4f4; }
 
-/* Tema escuro */
-.tema-escuro {
-  --neon-color: #00f7ff;
-  --neon-color-alt: #00d1ff;
-}
-
-/* Classe especial para botões neon */
-.botao-neon {
+.botao-neon, .botao-config {
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: bold;
   padding: 4px 10px;
   border: 2px solid var(--neon-color);
   border-radius: 8px;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  animation: neonPulse 1.5s infinite alternate, neonBorder 3s infinite;
   transition: all 0.3s ease;
   background-color: transparent;
   color: var(--neon-color);
+  animation: neonPulse 1.5s infinite alternate, neonBorder 3s infinite;
+  position: fixed;
+  z-index: 1000;
 }
 
-.botao-neon:hover {
+.botao-neon { top: 10px; right: 10px; }
+.botao-config { top: 10px; left: 10px; }
+
+.botao-neon:hover, .botao-config:hover {
   background: var(--neon-color);
   color: #0a0a0a;
-  box-shadow:
-    0 0 20px var(--neon-color),
-    0 0 40px var(--neon-color),
-    0 0 60px var(--neon-color),
-    0 0 80px var(--neon-color);
+  box-shadow: 0 0 20px var(--neon-color),0 0 40px var(--neon-color),0 0 60px var(--neon-color),0 0 80px var(--neon-color);
   transform: scale(1.05);
 }
 
-.botao-neon:active {
-  transform: scale(0.98);
-  box-shadow: 0 0 8px var(--neon-color), 0 0 16px var(--neon-color);
+
+/* ============================ */
+/* MENU LATERAL ESTILO DASHBOARD */
+/* ============================ */
+
+.menu-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  border-right: 1px solid var(--neon-color);
+  box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+  z-index: 100;
 }
 
-.botao-neon:focus {
-  outline: none;
+/* Tema escuro */
+.tema-escuro .menu-lateral {
+  background-color: rgba(30,30,35,0.95);
+  border-right-color: var(--neon-color);
+  box-shadow: 2px 0 12px rgba(0,0,0,0.5);
 }
-/* Remova cor fixa em títulos para herdar do tema */
-h1, h2, label, p, strong, span {
+
+/* Perfil */
+.menu-lateral .perfil {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.menu-lateral .perfil img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 0.75rem;
+  border: 2px solid var(--neon-color);
+  box-shadow: 0 0 10px var(--neon-color);
+}
+
+.menu-lateral .perfil h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.menu-lateral .perfil p {
+  margin: 2px 0 0 0;
+  font-size: 0.85rem;
   color: inherit;
 }
 
-/* Inputs que mudam conforme tema */
-.tema-claro input {
-  background-color: #fff;
-  color: #000;
-  border-color: #cbd5e0;
-}
-
-.tema-escuro input {
-  background-color: #333;
-  color: #f0f0f0;
-  border-color: #555;
-}
-
-/* Botão neon já está estilizado para alterar conforme tema */
-/* Container do gráfico com fundo, borda e sombra */
-.graph-container {
-  flex-grow: 1;
+/* Links do menu */
+.menu-lateral .links {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  min-height: 400px; /* altura mínima para o gráfico */
-  padding: 1rem;
-  background-color: rgba(255, 255, 255, 0.85); /* leve fundo branco translúcido */
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+  gap: 1rem;
 }
 
-/* No tema escuro, mudar o fundo e sombra para combinar */
-.tema-escuro .graph-container {
-  background-color: rgba(30, 30, 35, 0.85);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+.menu-lateral .links a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 8px;
+  transition: all 0.2s ease;
 }
 
-/* Ajustar o canvas do gráfico para preencher o container */
-.graph-container canvas {
-  width: 100% !important;
-  height: 100% !important;
-  max-height: 450px;
-  border-radius: 16px;
-  transition: filter 0.4s ease;
+.menu-lateral .links a:hover {
+  background-color: rgba(0,0,0,0.05);
 }
 
-/* Efeito hover no gráfico: leve brilho */
-.graph-container:hover canvas {
-  filter: drop-shadow(0 0 6px rgba(0, 179, 255, 0.7));
+.tema-escuro .menu-lateral .links a:hover {
+  background-color: rgba(255,255,255,0.05);
 }
 
-/* Pontos do gráfico (via Chart.js) - sobrescrever cores */
-.chartjs-render-monitor {
-  border-radius: 16px;
+/* Ícones (usando FontAwesome ou similar) */
+.menu-lateral .links a i {
+  font-size: 1.1rem;
 }
 
-/* Texto do label do gráfico */
-.chartjs-tooltip {
-  font-family: system-ui, sans-serif;
-  font-size: 0.9rem;
+/* Ajuste do conteúdo principal para não ficar embaixo do menu */
+.main-com-padding {
+  margin-left: 220px;
+  transition: margin-left 0.4s ease;
 }
 
-/* Suavizar transição de cores do body no tema */
-body {
-  transition: background-color 0.6s ease, color 0.6s ease;
-}
 
-/* Botão já estilizado, mas adiciona cursor pointer e sombra */
-.botao-neon {
-  cursor: pointer;
-  box-shadow: 0 0 12px var(--neon-color);
-  user-select: none;
-}
+.botao-neon:active, .botao-config:active { transform: scale(0.98); }
 
+.botao-neon:focus, .botao-config:focus { outline: none; }
+
+/* Inputs tema */
+.tema-claro input { background-color: #fff; color: #000; border-color: #cbd5e0; }
+.tema-escuro input { background-color: #333; color: #f0f0f0; border-color: #555; }
+
+/* Herdar cores do tema */
+h1, h2, label, p, strong, span { color: inherit; }

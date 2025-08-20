@@ -24,6 +24,7 @@ body {
   color: #f0f0f0;
 }
 
+
 .tema-claro {
   background:
        radial-gradient(circle at 20% 20%, #e8f0ff 25%, transparent 45%),
@@ -170,6 +171,7 @@ strong {
   border-radius: 16px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
   transition: background-color 0.4s ease, box-shadow 0.4s ease;
+  
 }
 
 .tema-escuro .graph-container {
@@ -253,6 +255,103 @@ strong {
   box-shadow: 0 0 20px var(--neon-color),0 0 40px var(--neon-color),0 0 60px var(--neon-color),0 0 80px var(--neon-color);
   transform: scale(1.05);
 }
+
+
+/* ============================ */
+/* MENU LATERAL ESTILO DASHBOARD */
+/* ============================ */
+
+.menu-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  border-right: 1px solid var(--neon-color);
+  box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+  z-index: 100;
+}
+
+/* Tema escuro */
+.tema-escuro .menu-lateral {
+  background-color: rgba(30,30,35,0.95);
+  border-right-color: var(--neon-color);
+  box-shadow: 2px 0 12px rgba(0,0,0,0.5);
+}
+
+/* Perfil */
+.menu-lateral .perfil {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.menu-lateral .perfil img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 0.75rem;
+  border: 2px solid var(--neon-color);
+  box-shadow: 0 0 10px var(--neon-color);
+}
+
+.menu-lateral .perfil h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.menu-lateral .perfil p {
+  margin: 2px 0 0 0;
+  font-size: 0.85rem;
+  color: inherit;
+}
+
+/* Links do menu */
+.menu-lateral .links {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+}
+
+.menu-lateral .links a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.menu-lateral .links a:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
+.tema-escuro .menu-lateral .links a:hover {
+  background-color: rgba(255,255,255,0.05);
+}
+
+/* Ícones (usando FontAwesome ou similar) */
+.menu-lateral .links a i {
+  font-size: 1.1rem;
+}
+
+/* Ajuste do conteúdo principal para não ficar embaixo do menu */
+.main-com-padding {
+  margin-left: 220px;
+  transition: margin-left 0.4s ease;
+}
+
 
 .botao-neon:active, .botao-config:active { transform: scale(0.98); }
 
