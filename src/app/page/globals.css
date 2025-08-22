@@ -1,4 +1,7 @@
-/* globals.css */
+/* ============================ */
+/* BASE */
+/* ============================ */
+
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
@@ -9,6 +12,7 @@ body {
   transition: background-color 0.6s ease, color 0.6s ease;
 }
 
+/* Tema escuro */
 .tema-escuro {
   background:
     radial-gradient(circle at 20% 20%, #2a2f38 15%, transparent 45%),
@@ -24,10 +28,10 @@ body {
   color: #f0f0f0;
 }
 
-
+/* Tema claro */
 .tema-claro {
   background:
-       radial-gradient(circle at 20% 20%, #e8f0ff 25%, transparent 45%),
+    radial-gradient(circle at 20% 20%, #e8f0ff 25%, transparent 45%),
     radial-gradient(circle at 80% 80%, #c8d9ff 20%, transparent 45%),
     repeating-linear-gradient(
       45deg,
@@ -40,18 +44,22 @@ body {
   color: #1a1a1a;
 }
 
-/* Main layout */
+/* Layout principal */
 main {
   min-height: 100vh;
   min-width: 100vw;
-  padding: 0;
+  padding: 1rem;
   margin: 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-/* Títulos */
+/* ============================ */
+/* TIPOGRAFIA */
+/* ============================ */
+
 h1 {
   font-size: 1.75rem;
   font-weight: 700;
@@ -67,41 +75,57 @@ h2 {
   text-align: center;
 }
 
-/* Sections */
-section {
+p, strong, span {
+  font-size: 1rem;
+  margin: 0.25rem 0;
+}
+
+strong {
+  font-weight: 700;
+  color: lime;
+}
+
+/* Herdar cores do tema */
+h1, h2, label, p, strong, span {
+  color: inherit;
+}
+
+/* ============================ */
+/* FORMULÁRIOS E PÁGINA DE VALORES */
+/* ============================ */
+
+.form-box {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 2rem;
-  text-align: center;
+  gap: 1rem;
+  background-color: rgba(255,255,255,0.1);
+  padding: 1.5rem;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
 }
 
-/* Grid e flex utilitários */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem 1rem;
+.tema-escuro .form-box {
+  background-color: rgba(50,50,55,0.5);
 }
 
-.flex {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-/* Inputs e labels */
 label {
-  width: 6rem;
+  width: 100%;
   font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 input[type="number"] {
   border: 1px solid #cbd5e0;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
-  width: 6rem;
+  width: 120px;
   font-size: 1rem;
+  text-align: right;
 }
 
 input[type="number"]:focus {
@@ -110,22 +134,79 @@ input[type="number"]:focus {
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.6);
 }
 
-/* Textos e strong */
-p, strong, span {
-  font-size: 1rem;
-  margin: 0.25rem 0;
+.tema-claro input { background-color: #fff; color: #000; border-color: #cbd5e0; }
+.tema-escuro input { background-color: #333; color: #f0f0f0; border-color: #555; }
+
+/* Lista de valores */
+ul {
+  list-style: none;
+  padding: 0;
+  text-align: center;
 }
 
-strong {
-  font-weight: 700;
+ul li {
+  margin: 4px 0;
+  font-weight: 500;
 }
 
-/* Status cores */
-.foraDeMeta { color: red; font-weight: bold; }
-.dentroDaMeta { color: green; font-weight: bold; }
-.naMeta { color: orange; font-weight: bold; }
+/* Container para botões na página */
+.botao-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+}
 
-/* Cards */
+
+
+/* ============================ */
+/* BOTÕES NEON */
+/* ============================ */
+
+@keyframes neonPulse {
+  0%,100% { box-shadow: 0 0 20px var(--neon-color),0 0 40px var(--neon-color) inset; }
+  50% { box-shadow: 0 0 40px var(--neon-color),0 0 80px var(--neon-color) inset; }
+}
+
+@keyframes neonBorder {
+  0%,100% { border-color: var(--neon-color); }
+  50% { border-color: var(--neon-color-alt); }
+}
+
+.tema-claro { --neon-color: #23292b; --neon-color-alt: #081415; }
+.tema-escuro { --neon-color: #a8a8a8; --neon-color-alt: #f4f4f4; }
+
+.botao-neon, .botao-config, .botao-apagar1 {
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 6px 12px;
+  border: 2px solid var(--neon-color);
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  color: var(--neon-color);
+  animation: neonPulse 1.5s infinite alternate, neonBorder 3s infinite;
+}
+
+
+.botao-neon:hover, .botao-config:hover, .botao-apagar1:hover {
+  background: var(--neon-color);
+  color: #0a0a0a;
+  box-shadow: 0 0 20px var(--neon-color),0 0 40px var(--neon-color),0 0 60px var(--neon-color),0 0 80px var(--neon-color);
+  transform: scale(1.05);
+}
+
+.botao-neon:active, .botao-config:active, .botao-apagar1:active { transform: scale(0.98); }
+.botao-neon:focus, .botao-config:focus, .botao-apagar1:focus { outline: none; }
+
+/* ============================ */
+/* CARDS */
+/* ============================ */
+
 .cards-container {
   display: flex;
   gap: 16px;
@@ -152,16 +233,15 @@ strong {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 0 15px var(--neon-color);
 }
 
-.card-info h2 { font-size: 1.2rem; margin-bottom: 8px; color: inherit; }
-.card-info p { font-size: 1rem; margin: 0; color: inherit; }
-.card-info strong { color: lime; font-size: 1.3rem; }
-
 .tema-escuro .card-info {
   background-color: rgba(30, 30, 35, 0.85);
   box-shadow: 0 6px 15px rgba(0,0,0,0.5), 0 0 10px var(--neon-color);
 }
 
-/* Gráficos */
+/* ============================ */
+/* GRÁFICOS */
+/* ============================ */
+
 .graph-container {
   flex-grow: 1;
   width: 75%;
@@ -171,7 +251,7 @@ strong {
   border-radius: 16px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
   transition: background-color 0.4s ease, box-shadow 0.4s ease;
-  
+  text-align: center;
 }
 
 .tema-escuro .graph-container {
@@ -194,7 +274,10 @@ strong {
   align-items: flex-start;
 }
 
-/* Calendário */
+/* ============================ */
+/* CALENDÁRIO */
+/* ============================ */
+
 .calendar-container {
   max-width: 350px;
   width: 100%;
@@ -215,50 +298,8 @@ strong {
   border-color: #555;
 }
 
-/* Botões neon */
-@keyframes neonPulse {
-  0%,100% { box-shadow: 0 0 20px var(--neon-color),0 0 40px var(--neon-color) inset; }
-  50% { box-shadow: 0 0 40px var(--neon-color),0 0 80px var(--neon-color) inset; }
-}
-
-@keyframes neonBorder {
-  0%,100% { border-color: var(--neon-color); }
-  50% { border-color: var(--neon-color-alt); }
-}
-
-.tema-claro { --neon-color: #23292b; --neon-color-alt: #081415; }
-.tema-escuro { --neon-color: #a8a8a8; --neon-color-alt: #f4f4f4; }
-
-.botao-neon, .botao-config {
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: bold;
-  padding: 4px 10px;
-  border: 2px solid var(--neon-color);
-  border-radius: 8px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  transition: all 0.3s ease;
-  background-color: transparent;
-  color: var(--neon-color);
-  animation: neonPulse 1.5s infinite alternate, neonBorder 3s infinite;
-  position: fixed;
-  z-index: 1000;
-}
-
-.botao-neon { top: 10px; right: 10px; }
-.botao-config { top: 10px; left: 10px; }
-
-.botao-neon:hover, .botao-config:hover {
-  background: var(--neon-color);
-  color: #0a0a0a;
-  box-shadow: 0 0 20px var(--neon-color),0 0 40px var(--neon-color),0 0 60px var(--neon-color),0 0 80px var(--neon-color);
-  transform: scale(1.05);
-}
-
-
 /* ============================ */
-/* MENU LATERAL ESTILO DASHBOARD */
+/* MENU LATERAL */
 /* ============================ */
 
 .menu-lateral {
@@ -278,7 +319,6 @@ strong {
   z-index: 100;
 }
 
-/* Tema escuro */
 .tema-escuro .menu-lateral {
   background-color: rgba(30,30,35,0.95);
   border-right-color: var(--neon-color);
@@ -314,7 +354,7 @@ strong {
   color: inherit;
 }
 
-/* Links do menu */
+/* Links */
 .menu-lateral .links {
   display: flex;
   flex-direction: column;
@@ -333,6 +373,10 @@ strong {
   transition: all 0.2s ease;
 }
 
+.menu-lateral .links a i {
+  font-size: 1.1rem;
+}
+
 .menu-lateral .links a:hover {
   background-color: rgba(0,0,0,0.05);
 }
@@ -341,25 +385,8 @@ strong {
   background-color: rgba(255,255,255,0.05);
 }
 
-/* Ícones (usando FontAwesome ou similar) */
-.menu-lateral .links a i {
-  font-size: 1.1rem;
-}
-
 /* Ajuste do conteúdo principal para não ficar embaixo do menu */
 .main-com-padding {
   margin-left: 220px;
   transition: margin-left 0.4s ease;
 }
-
-
-.botao-neon:active, .botao-config:active { transform: scale(0.98); }
-
-.botao-neon:focus, .botao-config:focus { outline: none; }
-
-/* Inputs tema */
-.tema-claro input { background-color: #fff; color: #000; border-color: #cbd5e0; }
-.tema-escuro input { background-color: #333; color: #f0f0f0; border-color: #555; }
-
-/* Herdar cores do tema */
-h1, h2, label, p, strong, span { color: inherit; }

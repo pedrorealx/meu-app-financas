@@ -13,8 +13,8 @@ import {
   Legend
 } from 'chart.js'
 import './globals.css'
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+import Calendar from 'react-calendar'
+import 'react-calendar/dist/Calendar.css'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Tooltip, Legend)
 
@@ -26,29 +26,30 @@ const meses = [
 
 export default function Home() {
   const router = useRouter()
-
-  const [fixos, setFixos] = useState([400, 350, 200, 500, 700, 300, 100, 200, 250, 100, 400, 500])
-  const [avulsos, setAvulsos] = useState([100, 300, 150, 200, 300, 200, 50, 230, 100, 50, 400, 450])
+  const [fixos, setFixos] = useState<number[]>([])
+  const [avulsos, setAvulsos] = useState<number[]>([])
   const [tema, setTema] = useState<'light' | 'dark'>('light')
-  const [abrirConfig, setAbrirConfig] = useState(false)
-  const [menuAberto, setMenuAberto] = useState(false) // <-- Novo estado do menu
+  const [menuAberto, setMenuAberto] = useState(false)
   const [dataSelecionada, setDataSelecionada] = useState<Date | null>(new Date())
 
   useEffect(() => {
     const temaSalvo = localStorage.getItem('tema') as 'light' | 'dark' | null
     if (temaSalvo) setTema(temaSalvo)
+
+    // Carregar valores do localStorage
+    const fixosSalvos = localStorage.getItem('fixos')
+    const avulsosSalvos = localStorage.getItem('avulsos')
+    if (fixosSalvos) setFixos(JSON.parse(fixosSalvos))
+    else setFixos([400, 350, 200, 500, 700, 300, 100, 200, 250, 100, 400, 500])
+
+    if (avulsosSalvos) setAvulsos(JSON.parse(avulsosSalvos))
+    else setAvulsos([100, 300, 150, 200, 300, 200, 50, 230, 100, 50, 400, 450])
   }, [])
 
   const alternarTema = () => {
     const novoTema = tema === 'light' ? 'dark' : 'light'
     setTema(novoTema)
     localStorage.setItem('tema', novoTema)
-  }
-
-  const getStatus = (valor: number) => {
-    if (valor > meta) return { texto: 'Fora da meta', classe: 'foraDeMeta' }
-    if (valor < meta) return { texto: 'Dentro da meta', classe: 'dentroDaMeta' }
-    return { texto: 'Na meta', classe: 'naMeta' }
   }
 
   const totalFixos = fixos.reduce((acc, val) => acc + val, 0)
@@ -98,24 +99,6 @@ export default function Home() {
     ],
   }
 
-  const atualizarValor = (tipo: 'fixos' | 'avulsos', index: number, novoValor: number) => {
-    if (tipo === 'fixos') {
-      const novos = [...fixos]
-      novos[index] = novoValor
-      setFixos(novos)
-    } else {
-      const novos = [...avulsos]
-      novos[index] = novoValor
-      setAvulsos(novos)
-    }
-  }
-
-  const inputStyle = {
-    backgroundColor: tema === 'dark' ? '#333' : '#fff',
-    color: tema === 'dark' ? '#f0f0f0' : '#000',
-    borderColor: tema === 'dark' ? '#555' : '#cbd5e0'
-  }
-
   return (
     <main
       className={tema === 'dark' ? 'tema-escuro' : 'tema-claro'}
@@ -123,22 +106,21 @@ export default function Home() {
     >
       {/* Botões */}
       <div className="flex gap-2 mb-4">
-        
         <button onClick={alternarTema} className="botao-neon">☾/☼</button>
-        <button onClick={() => setMenuAberto(!menuAberto)} className="botao-config">☰</button> {/* Botão menu */}
+        <button onClick={() => setMenuAberto(!menuAberto)} className="botao-config">☰</button>
       </div>
 
-      {/* Menu lateral renderizado condicionalmente */}
+      {/* Menu lateral */}
       {menuAberto && (
         <div className="menu-lateral">
           <div className="perfil">
-            <img src="/path/to/avatar.png" alt="Perfil" />
-            <h3>John Don</h3>
-            <p>Johndon@company.com</p>
+            <img src="/images/img_luffy.webp" alt="Perfil" />
+            <h3>Pedro Henrique</h3>
+            <p>teste@teste.com</p>
           </div>
           <div className="links">
             <a href="#"><i className="fas fa-home"></i>Home</a>
-            <a href="#"><i className="fas fa-folder"></i>File</a>
+            <a href="/valores"><i className="fas fa-plus"></i>Adicionar Valores</a>
             <a href="#"><i className="fas fa-envelope"></i>Messages</a>
             <a href="#"><i className="fas fa-bell"></i>Notification</a>
             <a href="#"><i className="fas fa-map-marker-alt"></i>Location</a>
@@ -165,7 +147,7 @@ export default function Home() {
           <Bar data={dataBar} options={{ maintainAspectRatio: false }} />
         </section>
 
-        {/* Gráfico + Calendário lado a lado */}
+        {/* Gráfico + Calendário */}
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
           <section className="mb-8 graph-container" style={{ height: '250px', maxWidth: '610px', flex: 1 }}>
             <Line data={data} options={{ maintainAspectRatio: false }} />
@@ -174,40 +156,6 @@ export default function Home() {
             <Calendar value={dataSelecionada} />
           </div>
         </div>
-
-        {/* Editar valores */}
-        <section className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">Editar Valores Mensais</h2>
-          <div className="grid grid-cols-2 gap-4">
-            {meses.map((mes, index) => (
-              <div key={mes} className="p-2 border rounded">
-                <h3 className="font-bold mb-2">{mes}</h3>
-                <div className="flex items-center gap-2 mb-1">
-                  <label className="w-20">Fixos:</label>
-                  <input
-                    type="number"
-                    value={fixos[index]}
-                    onChange={(e) => atualizarValor('fixos', index, Number(e.target.value))}
-                    className="border p-1 rounded w-24"
-                    style={inputStyle}
-                  />
-                  <span className={getStatus(fixos[index]).classe}>{getStatus(fixos[index]).texto}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <label className="w-20">Avulsos:</label>
-                  <input
-                    type="number"
-                    value={avulsos[index]}
-                    onChange={(e) => atualizarValor('avulsos', index, Number(e.target.value))}
-                    className="border p-1 rounded w-24"
-                    style={inputStyle}
-                  />
-                  <span className={getStatus(avulsos[index]).classe}>{getStatus(avulsos[index]).texto}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
       </div>
     </main>
   )
