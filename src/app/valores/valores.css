@@ -1,0 +1,238 @@
+/* ============================ */
+/* BASE DA PÁGINA VALORES */
+/* ============================ */
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  padding: 0;
+  min-height: 100vh;
+  transition: background-color 0.6s ease, color 0.6s ease;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Temas */
+.tema-claro {
+  background: radial-gradient(circle at 20% 20%, #e8f0ff 25%, transparent 45%),
+              radial-gradient(circle at 80% 80%, #c8d9ff 20%, transparent 45%),
+              repeating-linear-gradient(45deg, rgba(0,0,0,0.015), rgba(0,0,0,0.015) 2px, transparent 2px, transparent 6px),
+              linear-gradient(135deg, #f7fbff 0%, #e1e9ff 100%);
+  color: #1a1a1a;
+}
+
+.tema-escuro {
+  background: radial-gradient(circle at 20% 20%, #2a2f38 15%, transparent 45%),
+              radial-gradient(circle at 80% 80%, #232830 15%, transparent 45%),
+              repeating-linear-gradient(45deg, rgba(255,255,255,0.03), rgba(255,255,255,0.03) 2px, transparent 2px, transparent 6px),
+              #121212;
+  color: #f0f0f0;
+}
+
+/* Layout principal */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 600px;
+  padding: 2rem 1rem;
+}
+
+/* ============================ */
+/* FORMULÁRIO DE ADICIONAR VALORES */
+/* ============================ */
+.form-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 75%;
+  padding: 2rem;
+  border-radius: 16px;
+  background-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  transition: background-color 0.4s ease;
+}
+
+.tema-escuro .form-box {
+  background-color: rgba(30, 30, 35, 0.85);
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Inputs */
+.input-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 0%;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  flex: 1;
+  min-width: 120px;
+}
+
+input[type="number"] {
+  margin-top: 5px;
+  padding: 12px 5px;
+  border-radius: 8px;
+  border: 1px solid #ffffff;
+  width: 90%;
+  text-align: right;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: #fff;
+  color: #000;
+}
+
+.tema-escuro input[type="number"] {
+  background-color: #333;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+input[type="number"]:focus {
+  outline: none;
+  border-color: #3182ce;
+  box-shadow: 0 0 8px rgba(49,130,206,0.6);
+}
+
+/* Botão salvar */
+.salvar-btn {
+  margin-block: 40rem;
+  width: 180px;
+  padding: 10px 0;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 2px solid var(--neon-color);
+  color: var(--neon-color);
+  background-color: transparent;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  animation: neonPulse 1.5s infinite alternate, neonBorder 3s infinite;
+  transition: all 0.3s ease;
+}
+
+.salvar-btn:hover {
+  background-color: var(--neon-color);
+  color: #0a0a0a;
+  transform: scale(1.05);
+}
+
+/* ============================ */
+/* LISTA DE VALORES */
+/* ============================ */
+.valores-lista {
+  width: 100%;
+  padding: 1.5rem;
+  border-radius: 16px;
+  background-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  transition: background-color 0.4s ease;
+}
+
+.tema-escuro .valores-lista {
+  background-color: rgba(30,30,35,0.85);
+}
+
+.valores-lista h2 {
+  text-align: center;
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+.valores-lista ul {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+}
+
+.valores-lista li {
+  margin: 8px 0;
+  font-weight: 500;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.valores-lista li:hover {
+  background-color: rgba(49,130,206,0.2);
+  cursor: default;
+}
+
+/* ============================ */
+/* BOTÕES NEON */
+/* ============================ */
+@keyframes neonPulse {
+  0%,100% { box-shadow: 0 0 20px var(--neon-color),0 0 40px var(--neon-color) inset; }
+  50% { box-shadow: 0 0 40px var(--neon-color),0 0 80px var(--neon-color) inset; }
+}
+
+@keyframes neonBorder {
+  0%,100% { border-color: var(--neon-color); }
+  50% { border-color: var(--neon-color-alt); }
+}
+
+.tema-claro { --neon-color: #23292b; --neon-color-alt: #081415; }
+.tema-escuro { --neon-color: #a8a8a8; --neon-color-alt: #f4f4f4; }
+
+.botao-neon, .botao-apagar1 {
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: bold;
+  padding: 8px 8px;
+  border: 2px solid var(--neon-color);
+  border-radius: 20px;
+  background-color: transparent;
+  color: var(--neon-color);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  animation: neonPulse 1.5s infinite alternate, neonBorder 3s infinite;
+  transition: all 0.3s ease;
+}
+
+.botao-neon:hover, .botao-apagar1:hover {
+  background: var(--neon-color);
+  color: #0a0a0a;
+  transform: scale(1.05);
+}
+
+.botao-dashboard {
+  position: fixed;       /* Retira do fluxo normal e permite posicionamento livre */
+  top: 10px;                /* Distância do topo da tela */
+  left: 10px;               /* Distância da esquerda da tela */
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: bold;
+  padding: 8px 8px;
+  border: 2px solid var(--neon-color);
+  border-radius: 20px;
+  background-color: transparent;
+  color: var(--neon-color);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  animation: neonPulse 1.5s infinite alternate, neonBorder 3s infinite;
+  transition: all 0.3s ease;
+  z-index: 1000;            /* Garante que fique acima de outros elementos */
+}
+
+.botao-dashboard:hover {
+  background: var(--neon-color);
+  color: #0a0a0a;
+  transform: scale(1.05);
+}

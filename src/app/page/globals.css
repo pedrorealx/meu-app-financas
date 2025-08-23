@@ -99,7 +99,7 @@ h1, h2, label, p, strong, span {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  background-color: rgba(255,255,255,0.1);
+  background-color: rgba(255, 0, 0, 0.1);
   padding: 1.5rem;
   border-radius: 12px;
   max-width: 400px;
@@ -118,6 +118,7 @@ label {
   justify-content: space-between;
   align-items: center;
 }
+.mt-6
 
 input[type="number"] {
   border: 1px solid #cbd5e0;
@@ -133,6 +134,7 @@ input[type="number"]:focus {
   border-color: #3182ce;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.6);
 }
+
 
 .tema-claro input { background-color: #fff; color: #000; border-color: #cbd5e0; }
 .tema-escuro input { background-color: #333; color: #f0f0f0; border-color: #555; }
@@ -157,7 +159,6 @@ ul li {
   justify-content: center;
   margin-bottom: 20px;
 }
-
 
 
 /* ============================ */
@@ -373,6 +374,7 @@ ul li {
   transition: all 0.2s ease;
 }
 
+
 .menu-lateral .links a i {
   font-size: 1.1rem;
 }
@@ -390,3 +392,5 @@ ul li {
   margin-left: 220px;
   transition: margin-left 0.4s ease;
 }
+
+

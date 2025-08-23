@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import '../globals.css'  // ✅ import corrigido, sobe um nível para encontrar o arquivo
+
+import './valores.css'
+
 
 export default function Valores() {
   const router = useRouter()
@@ -12,7 +14,6 @@ export default function Valores() {
   const [avulsos, setAvulsos] = useState<number[]>([])
   const [tema, setTema] = useState<'light' | 'dark'>('light')
 
-  // Carregar tema e valores do localStorage ao iniciar
   useEffect(() => {
     const temaSalvo = localStorage.getItem('tema') as 'light' | 'dark' | null
     if (temaSalvo) setTema(temaSalvo)
@@ -24,14 +25,12 @@ export default function Valores() {
   }, [])
 
   const salvarValores = () => {
-    // Adiciona valores fixos
     if (fixo > 0) {
       const novosFixos = [...fixos, fixo]
       setFixos(novosFixos)
       localStorage.setItem('fixos', JSON.stringify(novosFixos))
     }
 
-    // Adiciona valores avulsos
     if (avulso > 0) {
       const novosAvulsos = [...avulsos, avulso]
       setAvulsos(novosAvulsos)
@@ -40,7 +39,7 @@ export default function Valores() {
 
     setFixo(0)
     setAvulso(0)
-    router.push('/') // Voltar para página inicial
+    router.push('/')
   }
 
   const alternarTema = () => {
@@ -49,7 +48,6 @@ export default function Valores() {
     localStorage.setItem('tema', novoTema)
   }
 
-  // Funções para apagar valores
   const apagarFixos = () => {
     setFixos([])
     localStorage.removeItem('fixos')
@@ -66,57 +64,57 @@ export default function Valores() {
   }
 
   return (
-    <main
-      className={tema === 'dark' ? 'tema-escuro' : 'tema-claro'}
-      style={{ transition: 'background-color 0.4s ease, color 0.4s ease', minHeight: '100vh', padding: '1rem' }}
-    >
-      {/* Botões */}
-      <div className="flex gap-2 mb-4 flex-wrap">
-        <button onClick={alternarTema} className="botao-neon">☾/☼</button>
-        <button onClick={() => router.push('/')} className="">🏠 Voltar ao Dashboard</button>
+    <main className={tema === 'dark' ? 'tema-escuro' : 'tema-claro'}>
+      <header className="botao-container">
+         <button onClick={() => router.push('/')} className="botao-dashboard">🏠 Dashboard</button>
+        <button onClick={alternarTema} className="botao-neon">☾/☼ Tema</button>
+       
         <button onClick={apagarFixos} className="botao-apagar1">🗑️ Apagar Fixos</button>
         <button onClick={apagarAvulsos} className="botao-apagar1">🗑️ Apagar Avulsos</button>
         <button onClick={apagarTodos} className="botao-apagar1">🗑️ Apagar Todos</button>
-      </div>
+      </header>
 
-      <h1 className="text-2xl font-bold mb-4">Adicionar Valores</h1>
+      <section className="form-box">
+        <h1>Adicionar Valores</h1>
 
-      <div className="form-box">
-        <label>
-          Valor Fixo (R$):
-          <input
-            type="number"
-            value={fixo}
-            onChange={(e) => setFixo(Number(e.target.value))}
-          />
-        </label>
+        <div className="input-row">
+          <label>
+            Valor Fixo (R$)
+            <input
+              type="number"
+              value={fixo}
+              onChange={(e) => setFixo(Number(e.target.value))}
+              placeholder="Ex: 500"
+            />
+          </label>
 
-        <label>
-          Valor Avulso (R$):
-          <input
-            type="number"
-            value={avulso}
-            onChange={(e) => setAvulso(Number(e.target.value))}
-          />
-        </label>
+          <label>
+            Valor Avulso (R$)
+            <input
+              type="number"
+              value={avulso}
+              onChange={(e) => setAvulso(Number(e.target.value))}
+              placeholder="Ex: 200"
+            />
+          </label>
+        </div>
 
-        <button onClick={salvarValores} className="">
-          Salvar
+        <button onClick={salvarValores} className="botao-neon salvar-btn">
+          💾 Salvar Valores
         </button>
-      </div>
+      </section>
 
-      {/* Mostra lista de valores adicionados */}
-      <div className="mt-6">
-        <h2 className="">Valores Fixos:</h2>
+      <section className="valores-lista">
+        <h2>Valores Fixos</h2>
         <ul>
           {fixos.map((v, i) => <li key={i}>R$ {v}</li>)}
         </ul>
 
-        <h2 className="">Valores Avulsos:</h2>
+        <h2>Valores Avulsos</h2>
         <ul>
           {avulsos.map((v, i) => <li key={i}>R$ {v}</li>)}
         </ul>
-      </div>
+      </section>
     </main>
   )
 }
