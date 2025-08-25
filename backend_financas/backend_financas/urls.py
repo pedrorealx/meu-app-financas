@@ -16,9 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from financas.views import home  # deve existir home dentro de views.py
+from django.http import HttpResponse
+
+def home(request):
+    return HttpResponse("Olá! Seu projeto Django está funcionando.")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home, name='home'),
+    path('', home),
+    
 ]
