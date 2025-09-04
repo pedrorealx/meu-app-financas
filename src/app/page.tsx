@@ -36,14 +36,31 @@ export default function Home() {
     const temaSalvo = localStorage.getItem('tema') as 'light' | 'dark' | null
     if (temaSalvo) setTema(temaSalvo)
 
-    // Carregar valores do localStorage
-    const fixosSalvos = localStorage.getItem('fixos')
-    const avulsosSalvos = localStorage.getItem('avulsos')
-    if (fixosSalvos) setFixos(JSON.parse(fixosSalvos))
-    else setFixos([400, 350, 200, 500, 700, 300, 100, 200, 250, 100, 400, 500])
+    const carregarDados = () => {
+      // Carregar valores do localStorage
+      const fixosSalvos = localStorage.getItem('fixos')
+      const avulsosSalvos = localStorage.getItem('avulsos')
 
-    if (avulsosSalvos) setAvulsos(JSON.parse(avulsosSalvos))
-    else setAvulsos([100, 300, 150, 200, 300, 200, 50, 230, 100, 50, 400, 450])
+      if (fixosSalvos) {
+        setFixos(JSON.parse(fixosSalvos))
+      } else {
+        setFixos([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+      }
+
+      if (avulsosSalvos) {
+        setAvulsos(JSON.parse(avulsosSalvos))
+      } else {
+        setAvulsos([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+      }
+    }
+    
+    carregarDados();
+    // Adiciona um listener para recarregar os dados se a página voltar a ter foco
+    window.addEventListener('focus', carregarDados)
+
+    return () => {
+      window.removeEventListener('focus', carregarDados)
+    }
   }, [])
 
   const alternarTema = () => {
@@ -129,7 +146,7 @@ export default function Home() {
         </div>
       )}
 
-      <h1 className="text-2xl font-bold mb-4">Resumo Financeiro</h1>
+      <h1 className="text-2xl font-bold mb-4">DashBoard Financeiro </h1>
 
       <div className="cards-container">
         <section className="card-info">
