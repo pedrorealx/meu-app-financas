@@ -14,11 +14,14 @@ export default function Valores() {
   const [mes, setMes] = useState('')
   const [tipo, setTipo] = useState('')
   const [valor, setValor] = useState(0)
+  const [motivo, setMotivo] = useState('')
   const [tema, setTema] = useState<'light' | 'dark'>('light')
 
   // Armazena todos os valores salvos
   const [valoresFixos, setValoresFixos] = useState<number[]>(Array(12).fill(0))
   const [valoresAvulsos, setValoresAvulsos] = useState<number[]>(Array(12).fill(0))
+  const [motivosFixos, setMotivosFixos] = useState<string[]>(Array(12).fill(''))
+  const [motivosAvulsos, setMotivosAvulsos] = useState<string[]>(Array(12).fill(''))
 
   useEffect(() => {
     const temaSalvo = localStorage.getItem('tema') as 'light' | 'dark' | null
@@ -27,43 +30,89 @@ export default function Valores() {
     // Carregar valores salvos
     const fixos = JSON.parse(localStorage.getItem('fixos') || '[]')
     const avulsos = JSON.parse(localStorage.getItem('avulsos') || '[]')
+    const motivosFixosSalvos = JSON.parse(localStorage.getItem('motivosFixos') || '[]')
+    const motivosAvulsosSalvos = JSON.parse(localStorage.getItem('motivosAvulsos') || '[]')
+
     setValoresFixos(fixos.length ? fixos : Array(12).fill(0))
     setValoresAvulsos(avulsos.length ? avulsos : Array(12).fill(0))
+    setMotivosFixos(motivosFixosSalvos.length ? motivosFixosSalvos : Array(12).fill(''))
+    setMotivosAvulsos(motivosAvulsosSalvos.length ? motivosAvulsosSalvos : Array(12).fill(''))
   }, [])
 
-  // Sempre que o mês ou tipo mudar, preenche automaticamente o valor já salvo
+  // Preenche automaticamente os valores já salvos ao trocar mês/tipo
   useEffect(() => {
     if (mes && tipo) {
       const indexMes = meses.indexOf(mes)
-      if (tipo === 'fixo') {
-        setValor(valoresFixos[indexMes] || 0)
-      } else if (tipo === 'avulso') {
-        setValor(valoresAvulsos[indexMes] || 0)
+      if (indexMes !== -1) {
+        if (tipo === 'fixo') {
+          setValor(valoresFixos[indexMes] || 0)
+          setMotivo(motivosFixos[indexMes] || '')
+        } else if (tipo === 'avulso') {
+          setValor(valoresAvulsos[indexMes] || 0)
+          setMotivo(motivosAvulsos[indexMes] || '')
+        }
       }
     }
-  }, [mes, tipo, valoresFixos, valoresAvulsos])
+  }, [mes, tipo, valoresFixos, valoresAvulsos, motivosFixos, motivosAvulsos])
 
-  const handleSalvarValores = (e) => {
+  const handleSalvar = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (!mes || !tipo || valor <= 0) {
+    if (!mes || !tipo || valor <= 0 || !motivo) {
       alert('Por favor, preencha todos os campos corretamente.')
       return
     }
 
-    const tipoStorage = tipo === 'fixo' ? 'fixos' : 'avulsos'
-    const valoresAtuais = tipo === 'fixo' ? [...valoresFixos] : [...valoresAvulsos]
+    const indexMes = meses.indexOf(mes)
+    if (indexMes === -1) return
+
+    if (tipo === 'fixo') {
+      const novosFixos = [...valoresFixos]
+      const novosMotivos = [...motivosFixos]
+
+      novosFixos[indexMes] = valor
+      novosMotivos[indexMes] = motivo
+
+      setValoresFixos(novosFixos)
+      setMotivosFixos(novosMotivos)
+
+      localStorage.setItem('fixos', JSON.stringify(novosFixos))
+      localStorage.setItem('motivosFixos', JSON.stringify(novosMotivos))
+    } else {
+      const novosAvulsos = [...valoresAvulsos]
+      const novosMotivos = [...motivosAvulsos]
+
+      novosAvulsos[indexMes] = valor
+      novosMotivos[indexMes] = motivo
+
+      setValoresAvulsos(novosAvulsos)
+      setMotivosAvulsos(novosMotivos)
+
+      localStorage.setItem('avulsos', JSON.stringify(novosAvulsos))
+      localStorage.setItem('motivosAvulsos', JSON.stringify(novosMotivos))
+    }
+
+    alert(`Valor salvo para ${mes} (${tipo}) com motivo: ${motivo}`)
+  }
+
+  const handleEditar = () => {
+    if (!mes || !tipo) {
+      alert('Selecione mês e tipo para editar.')
+      return
+    }
 
     const indexMes = meses.indexOf(mes)
-    if (indexMes !== -1) {
-      valoresAtuais[indexMes] = Number(valor)
-      localStorage.setItem(tipoStorage, JSON.stringify(valoresAtuais))
+    if (indexMes === -1) return
 
-      if (tipo === 'fixo') setValoresFixos(valoresAtuais)
-      else setValoresAvulsos(valoresAtuais)
-
-      alert(`Valor de R$${valor} salvo para ${mes} (${tipo}).`)
+    if (tipo === 'fixo') {
+      setValor(valoresFixos[indexMes] || 0)
+      setMotivo(motivosFixos[indexMes] || '')
+    } else {
+      setValor(valoresAvulsos[indexMes] || 0)
+      setMotivo(motivosAvulsos[indexMes] || '')
     }
+
+    alert(`Modo de edição ativado para ${mes} (${tipo}). Agora altere os campos e clique em Salvar.`)
   }
 
   const alternarTema = () => {
@@ -75,8 +124,12 @@ export default function Valores() {
   const apagarTodos = () => {
     localStorage.removeItem('fixos')
     localStorage.removeItem('avulsos')
+    localStorage.removeItem('motivosFixos')
+    localStorage.removeItem('motivosAvulsos')
     setValoresFixos(Array(12).fill(0))
     setValoresAvulsos(Array(12).fill(0))
+    setMotivosFixos(Array(12).fill(''))
+    setMotivosAvulsos(Array(12).fill(''))
     alert('Todos os dados foram apagados.')
     router.push('/')
   }
@@ -90,8 +143,8 @@ export default function Valores() {
       </header>
 
       <section className="form-box">
-        <h1>Adicionar Valores por Mês</h1>
-        <form onSubmit={handleSalvarValores}>
+        <h1>Gerenciar Valores</h1>
+        <form onSubmit={handleSalvar}>
           <div className="input-row">
             <label>
               Mês
@@ -128,9 +181,23 @@ export default function Valores() {
             </label>
           </div>
 
-          <button type="submit" className="botao-neon salvar-btn">
-            💾 Salvar Valores
-          </button>
+          <div className="input-row">
+            <label>
+              Motivo
+              <input
+                type="text"
+                value={motivo}
+                onChange={(e) => setMotivo(e.target.value)}
+                placeholder="Ex: Internet, Luz, Uber..."
+                required
+              />
+            </label>
+          </div>
+
+          <div className="botoes-acao">
+            <button type="submit" className="salvar-btn">💾 Salvar</button>
+            <button type="button" onClick={handleEditar} className="salvar-btn">✏️ Editar</button>
+          </div>
         </form>
       </section>
 
@@ -142,7 +209,9 @@ export default function Valores() {
             <tr>
               <th>Mês</th>
               <th>Fixo (R$)</th>
+              <th>Motivo Fixo</th>
               <th>Avulso (R$)</th>
+              <th>Motivo Avulso</th>
             </tr>
           </thead>
           <tbody>
@@ -150,7 +219,9 @@ export default function Valores() {
               <tr key={m}>
                 <td>{m}</td>
                 <td>{valoresFixos[i] || '-'}</td>
+                <td>{motivosFixos[i] || '-'}</td>
                 <td>{valoresAvulsos[i] || '-'}</td>
+                <td>{motivosAvulsos[i] || '-'}</td>
               </tr>
             ))}
           </tbody>

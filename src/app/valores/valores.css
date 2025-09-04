@@ -9,7 +9,8 @@ body {
   transition: background-color 0.6s ease, color 0.6s ease;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center; /* centraliza verticalmente */
+  background-color: #f0f0f0;
 }
 
 /* Temas */
@@ -36,7 +37,7 @@ main {
   align-items: center;
   gap: 2rem;
   width: 100%;
-  max-width: 600px;
+  max-width: 900px;
   padding: 2rem 1rem;
 }
 
@@ -48,16 +49,19 @@ main {
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  width: 75%;
+  width: 100%;
+  max-width: 500px;
   padding: 2rem;
   border-radius: 16px;
-  background-color: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-  transition: background-color 0.4s ease;
+  background: rgba(255, 255, 255, 0.15); /* glass effect */
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s ease;
 }
 
 .tema-escuro .form-box {
-  background-color: rgba(30, 30, 35, 0.85);
+  background: rgba(30, 30, 35, 0.25);
+  backdrop-filter: blur(10px);
 }
 
 h1 {
@@ -65,6 +69,7 @@ h1 {
   font-weight: 700;
   text-align: center;
   margin-bottom: 1rem;
+  text-shadow: 0 0 5px rgba(0,0,0,0.2);
 }
 
 /* Inputs */
@@ -73,7 +78,7 @@ h1 {
   gap: 10px;
   justify-content: center;
   flex-wrap: wrap;
-  width: 0%;
+  width: 100%;
 }
 
 label {
@@ -81,103 +86,102 @@ label {
   flex-direction: column;
   font-weight: 600;
   flex: 1;
-  min-width: 120px;
+  min-width: 150px;
 }
 
-input[type="number"] {
+select, input[type="number"] {
   margin-top: 5px;
-  padding: 12px 5px;
-  border-radius: 8px;
-  border: 1px solid #ffffff;
-  width: 90%;
-  text-align: right;
+  padding: 12px 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.2);
+  width: 100%;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background-color: #fff;
+  background-color: rgba(255,255,255,0.25);
   color: #000;
 }
 
-.tema-escuro input[type="number"] {
-  background-color: #333;
+.tema-escuro select, .tema-escuro input[type="number"] {
+  background-color: rgba(50,50,50,0.25);
   color: #f0f0f0;
-  border-color: #555;
+  border-color: rgba(255,255,255,0.2);
 }
 
-input[type="number"]:focus {
+input:focus, select:focus {
   outline: none;
-  border-color: #3182ce;
-  box-shadow: 0 0 8px rgba(49,130,206,0.6);
+  border-color: var(--neon-color);
+  box-shadow: 0 0 12px var(--neon-color);
 }
 
 /* Botão salvar */
 .salvar-btn {
-  margin-block: 40rem;
-  width: 180px;
+  margin-top: 1rem;
+  width: 150px;
   padding: 10px 0;
   font-weight: 600;
   font-size: 1rem;
   border-radius: 12px;
   border: 2px solid var(--neon-color);
-  color: var(--neon-color);
-  background-color: transparent;
+  color: #fff;
+  background: linear-gradient(145deg, var(--neon-color), var(--neon-color-alt));
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 1px;
-  animation: neonPulse 1.5s infinite alternate, neonBorder 3s infinite;
+  box-shadow: 0 0 10px var(--neon-color), 0 0 20px var(--neon-color-alt) inset;
   transition: all 0.3s ease;
 }
 
 .salvar-btn:hover {
-  background-color: var(--neon-color);
-  color: #0a0a0a;
   transform: scale(1.05);
+  box-shadow: 0 0 20px var(--neon-color), 0 0 40px var(--neon-color-alt) inset;
 }
 
 /* ============================ */
-/* LISTA DE VALORES */
+/* TABELA DE VALORES */
 /* ============================ */
-.valores-lista {
+.tabela-valores {
   width: 100%;
   padding: 1.5rem;
   border-radius: 16px;
-  background-color: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
   transition: background-color 0.4s ease;
+  overflow-x: auto;
 }
 
-.tema-escuro .valores-lista {
-  background-color: rgba(30,30,35,0.85);
+.tema-escuro .tabela-valores {
+  background-color: rgba(30,30,35,0.25);
 }
 
-.valores-lista h2 {
+.tabela-valores h2 {
   text-align: center;
-  font-size: 1.4rem;
-  margin-bottom: 10px;
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+  text-shadow: 0 0 4px rgba(0,0,0,0.2);
 }
 
-.valores-lista ul {
-  list-style: none;
-  padding: 0;
+.tabela-valores table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden;
   text-align: center;
 }
 
-.valores-lista li {
-  margin: 8px 0;
-  font-weight: 500;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
-  border-radius: 6px;
-  transition: all 0.3s ease;
+.tabela-valores th, .tabela-valores td {
+  padding: 12px;
+  font-size: 1rem;
+  transition: background 0.3s ease;
 }
 
-.valores-lista li:hover {
-  background-color: rgba(49,130,206,0.2);
-  cursor: default;
+.tabela-valores tr:hover td {
+  background-color: rgba(49,130,206,0.1);
 }
 
 /* ============================ */
 /* BOTÕES NEON */
-/* ============================ */
 @keyframes neonPulse {
   0%,100% { box-shadow: 0 0 20px var(--neon-color),0 0 40px var(--neon-color) inset; }
   50% { box-shadow: 0 0 40px var(--neon-color),0 0 80px var(--neon-color) inset; }
@@ -195,7 +199,7 @@ input[type="number"]:focus {
   cursor: pointer;
   font-size: 0.85rem;
   font-weight: bold;
-  padding: 8px 8px;
+  padding: 8px 12px;
   border: 2px solid var(--neon-color);
   border-radius: 20px;
   background-color: transparent;
@@ -213,13 +217,13 @@ input[type="number"]:focus {
 }
 
 .botao-dashboard {
-  position: fixed;       /* Retira do fluxo normal e permite posicionamento livre */
-  top: 10px;                /* Distância do topo da tela */
-  left: 10px;               /* Distância da esquerda da tela */
+  position: fixed;
+  top: 10px;
+  left: 10px;
   cursor: pointer;
   font-size: 0.85rem;
   font-weight: bold;
-  padding: 8px 8px;
+  padding: 8px 12px;
   border: 2px solid var(--neon-color);
   border-radius: 20px;
   background-color: transparent;
@@ -228,7 +232,7 @@ input[type="number"]:focus {
   letter-spacing: 1.2px;
   animation: neonPulse 1.5s infinite alternate, neonBorder 3s infinite;
   transition: all 0.3s ease;
-  z-index: 1000;            /* Garante que fique acima de outros elementos */
+  z-index: 1000;
 }
 
 .botao-dashboard:hover {
