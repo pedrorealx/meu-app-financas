@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import './config.css' 
+import '../../globals.css'
+
 
 
 export default function Config() {
