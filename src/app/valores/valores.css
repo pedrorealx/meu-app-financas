@@ -53,7 +53,7 @@ main {
   max-width: 500px;
   padding: 2rem;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.15); /* glass effect */
+   background-color: rgba(60, 60, 60, 0.9);/* glass effect */
   backdrop-filter: blur(10px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   transition: all 0.4s ease;
@@ -93,18 +93,19 @@ select, input[type="number"] {
   margin-top: 5px;
   padding: 12px 15px;
   border-radius: 12px;
-  border: 1px solid rgba(0,0,0,0.2);
+  border: 1px solid #555;
   width: 100%;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background-color: rgba(255,255,255,0.25);
-  color: #000;
+  background-color: rgba(60, 60, 60, 0.9); /* <- aqui é o background */
+  color: #f0f0f0;
 }
+
 
 .tema-escuro select, .tema-escuro input[type="number"] {
   background-color: rgba(50,50,50,0.25);
-  color: #f0f0f0;
-  border-color: rgba(255,255,255,0.2);
+  color: #ffffff;
+  border-color: rgba(0, 0, 0, 0.2);
 }
 
 input:focus, select:focus {
@@ -121,20 +122,21 @@ input:focus, select:focus {
   font-weight: 600;
   font-size: 1rem;
   border-radius: 12px;
-  border: 2px solid var(--neon-color);
-  color: #fff;
-  background: linear-gradient(145deg, var(--neon-color), var(--neon-color-alt));
+  border: 2px solid #555; /* cinza escuro */
+  color: #ffffff;
+  background: linear-gradient(15deg, #444, #666); /* gradiente de cinza escuro */
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 1px;
-  box-shadow: 0 0 10px var(--neon-color), 0 0 20px var(--neon-color-alt) inset;
+  box-shadow: 0 0 8px #333, 0 0 12px #555 inset; /* sombra suave cinza */
   transition: all 0.3s ease;
 }
 
 .salvar-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px var(--neon-color), 0 0 40px var(--neon-color-alt) inset;
+  background: linear-gradient(15deg, #555, #777);
+  box-shadow: 0 0 10px #444, 0 0 15px #666 inset;
 }
+
 
 /* ============================ */
 /* TABELA DE VALORES */
@@ -181,10 +183,10 @@ input:focus, select:focus {
 }
 
 /* ============================ */
-/* BOTÕES NEON */
+/* BOTÕES CINZA SUAVE */
 @keyframes neonPulse {
-  0%,100% { box-shadow: 0 0 20px var(--neon-color),0 0 40px var(--neon-color) inset; }
-  50% { box-shadow: 0 0 40px var(--neon-color),0 0 80px var(--neon-color) inset; }
+  0%,100% { box-shadow: 0 0 10px var(--neon-color), 0 0 20px var(--neon-color) inset; }
+  50% { box-shadow: 0 0 15px var(--neon-color), 0 0 30px var(--neon-color) inset; }
 }
 
 @keyframes neonBorder {
@@ -192,8 +194,9 @@ input:focus, select:focus {
   50% { border-color: var(--neon-color-alt); }
 }
 
-.tema-claro { --neon-color: #23292b; --neon-color-alt: #081415; }
-.tema-escuro { --neon-color: #a8a8a8; --neon-color-alt: #f4f4f4; }
+/* Variáveis de cores adaptadas para cinza suave */
+.tema-claro { --neon-color: #444; --neon-color-alt: #666; }
+.tema-escuro { --neon-color: #888; --neon-color-alt: #aaa; }
 
 .botao-neon, .botao-apagar1 {
   cursor: pointer;
@@ -212,7 +215,7 @@ input:focus, select:focus {
 
 .botao-neon:hover, .botao-apagar1:hover {
   background: var(--neon-color);
-  color: #0a0a0a;
+  color: #f0f0f0;
   transform: scale(1.05);
 }
 
@@ -237,6 +240,6 @@ input:focus, select:focus {
 
 .botao-dashboard:hover {
   background: var(--neon-color);
-  color: #0a0a0a;
+  color: #f0f0f0;
   transform: scale(1.05);
 }

@@ -118,7 +118,6 @@ label {
   justify-content: space-between;
   align-items: center;
 }
-.mt-6
 
 input[type="number"] {
   border: 1px solid #cbd5e0;
@@ -134,7 +133,6 @@ input[type="number"]:focus {
   border-color: #3182ce;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.6);
 }
-
 
 .tema-claro input { background-color: #fff; color: #000; border-color: #cbd5e0; }
 .tema-escuro input { background-color: #333; color: #f0f0f0; border-color: #555; }
@@ -160,14 +158,13 @@ ul li {
   margin-bottom: 20px;
 }
 
-
 /* ============================ */
-/* BOTÕES NEON */
+/* BOTÕES CINZA SUAVE */
 /* ============================ */
 
 @keyframes neonPulse {
-  0%,100% { box-shadow: 0 0 20px var(--neon-color),0 0 40px var(--neon-color) inset; }
-  50% { box-shadow: 0 0 40px var(--neon-color),0 0 80px var(--neon-color) inset; }
+  0%,100% { box-shadow: 0 0 10px var(--neon-color), 0 0 20px var(--neon-color) inset; }
+  50% { box-shadow: 0 0 15px var(--neon-color), 0 0 30px var(--neon-color) inset; }
 }
 
 @keyframes neonBorder {
@@ -175,8 +172,9 @@ ul li {
   50% { border-color: var(--neon-color-alt); }
 }
 
-.tema-claro { --neon-color: #23292b; --neon-color-alt: #081415; }
-.tema-escuro { --neon-color: #a8a8a8; --neon-color-alt: #f4f4f4; }
+/* Variáveis de cor para tema claro e escuro */
+.tema-claro { --neon-color: #444; --neon-color-alt: #666; }
+.tema-escuro { --neon-color: #888; --neon-color-alt: #aaa; }
 
 .botao-neon, .botao-config, .botao-apagar1 {
   cursor: pointer;
@@ -193,16 +191,63 @@ ul li {
   animation: neonPulse 1.5s infinite alternate, neonBorder 3s infinite;
 }
 
-
 .botao-neon:hover, .botao-config:hover, .botao-apagar1:hover {
   background: var(--neon-color);
-  color: #0a0a0a;
-  box-shadow: 0 0 20px var(--neon-color),0 0 40px var(--neon-color),0 0 60px var(--neon-color),0 0 80px var(--neon-color);
+  color: #f0f0f0;
+  box-shadow: 0 0 15px var(--neon-color), 0 0 25px var(--neon-color), 0 0 35px var(--neon-color), 0 0 50px var(--neon-color);
   transform: scale(1.05);
 }
 
 .botao-neon:active, .botao-config:active, .botao-apagar1:active { transform: scale(0.98); }
 .botao-neon:focus, .botao-config:focus, .botao-apagar1:focus { outline: none; }
+
+/* Botão do dashboard */
+.botao-dashboard {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: bold;
+  padding: 8px 12px;
+  border: 2px solid var(--neon-color);
+  border-radius: 20px;
+  background-color: transparent;
+  color: var(--neon-color);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  animation: neonPulse 1.5s infinite alternate, neonBorder 3s infinite;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.botao-dashboard:hover {
+  background: var(--neon-color);
+  color: #f0f0f0;
+  transform: scale(1.05);
+}
+
+/* Botões dentro dos cards */
+.card-info button {
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: bold;
+  padding: 6px 12px;
+  border: 2px solid var(--neon-color);
+  border-radius: 8px;
+  background-color: transparent;
+  color: var(--neon-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.card-info button:hover {
+  background-color: var(--neon-color);
+  color: #f0f0f0;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px var(--neon-color), 0 0 25px var(--neon-color) inset;
+}
 
 /* ============================ */
 /* CARDS */
@@ -374,7 +419,6 @@ ul li {
   transition: all 0.2s ease;
 }
 
-
 .menu-lateral .links a i {
   font-size: 1.1rem;
 }
@@ -392,5 +436,3 @@ ul li {
   margin-left: 220px;
   transition: margin-left 0.4s ease;
 }
-
-

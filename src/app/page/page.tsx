@@ -1,4 +1,5 @@
 'use client'
+
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Line, Bar } from 'react-chartjs-2'
@@ -32,41 +33,50 @@ export default function Home() {
   const [menuAberto, setMenuAberto] = useState(false)
   const [dataSelecionada, setDataSelecionada] = useState<Date | null>(new Date())
 
+  // Inicializa senha padrão caso não exista
+  const inicializarSenha = () => {
+    const senhaSalva = localStorage.getItem('senhaExcluir')
+    if (!senhaSalva) {
+      localStorage.setItem('senhaExcluir', '1234') // senha padrão inicial
+    }
+  }
+
   useEffect(() => {
+    inicializarSenha()
     const temaSalvo = localStorage.getItem('tema') as 'light' | 'dark' | null
     if (temaSalvo) setTema(temaSalvo)
 
     const carregarDados = () => {
-      // Carregar valores do localStorage
       const fixosSalvos = localStorage.getItem('fixos')
       const avulsosSalvos = localStorage.getItem('avulsos')
-
-      if (fixosSalvos) {
-        setFixos(JSON.parse(fixosSalvos))
-      } else {
-        setFixos([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-      }
-
-      if (avulsosSalvos) {
-        setAvulsos(JSON.parse(avulsosSalvos))
-      } else {
-        setAvulsos([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-      }
+      setFixos(fixosSalvos ? JSON.parse(fixosSalvos) : Array(12).fill(0))
+      setAvulsos(avulsosSalvos ? JSON.parse(avulsosSalvos) : Array(12).fill(0))
     }
-    
-    carregarDados();
-    // Adiciona um listener para recarregar os dados se a página voltar a ter foco
+
+    carregarDados()
     window.addEventListener('focus', carregarDados)
-
-    return () => {
-      window.removeEventListener('focus', carregarDados)
-    }
+    return () => window.removeEventListener('focus', carregarDados)
   }, [])
 
   const alternarTema = () => {
     const novoTema = tema === 'light' ? 'dark' : 'light'
     setTema(novoTema)
     localStorage.setItem('tema', novoTema)
+  }
+
+  // Função para alterar a senha
+  const alterarSenha = () => {
+    const senhaAtual = prompt('Digite a senha atual:')
+    const senhaCorreta = localStorage.getItem('senhaExcluir')
+    if (senhaAtual === senhaCorreta) {
+      const novaSenha = prompt('Digite a nova senha:')
+      if (novaSenha) {
+        localStorage.setItem('senhaExcluir', novaSenha)
+        alert('Senha alterada com sucesso!')
+      }
+    } else {
+      alert('Senha atual incorreta.')
+    }
   }
 
   const totalFixos = fixos.reduce((acc, val) => acc + val, 0)
@@ -97,7 +107,7 @@ export default function Home() {
         pointRadius: 6,
         pointHoverRadius: 8
       }
-    ],
+    ]
   }
 
   const dataBar = {
@@ -113,18 +123,16 @@ export default function Home() {
         data: avulsos,
         backgroundColor: corAvulsos,
       }
-    ],
+    ]
   }
 
   return (
-    <main
-      className={tema === 'dark' ? 'tema-escuro' : 'tema-claro'}
-      style={{ transition: 'background-color 0.4s ease, color 0.4s ease', minHeight: '100vh', padding: '1rem' }}
-    >
-      {/* Botões */}
+    <main className={tema === 'dark' ? 'tema-escuro' : 'tema-claro'} style={{ transition: 'background-color 0.4s ease, color 0.4s ease', minHeight: '100vh', padding: '1rem' }}>
+      
+      {/* Botões do topo */}
       <div className="flex gap-2 mb-4">
-        <button onClick={alternarTema} className="botao-neon">☾/☼</button>
-        <button onClick={() => setMenuAberto(!menuAberto)} className="botao-config">☰</button>
+        <button onClick={alternarTema} className="botao-neon">☾/☼ Tema</button>
+        <button onClick={() => setMenuAberto(!menuAberto)} className="botao-config">☰ Menu</button>
       </div>
 
       {/* Menu lateral */}
@@ -140,13 +148,13 @@ export default function Home() {
             <a href="/valores"><i className="fas fa-plus"></i>Adicionar Valores</a>
             <a href="#"><i className="fas fa-envelope"></i>Messages</a>
             <a href="#"><i className="fas fa-bell"></i>Notification</a>
-            <a href="#"><i className="fas fa-map-marker-alt"></i>Location</a>
+            
             <a href="/login"><i className="fas fa-login"></i>Tela de Login</a>
           </div>
         </div>
       )}
 
-      <h1 className="text-2xl font-bold mb-4">DashBoard Financeiro </h1>
+      <h1 className="text-2xl font-bold mb-4">DashBoard Financeiro</h1>
 
       <div className="cards-container">
         <section className="card-info">

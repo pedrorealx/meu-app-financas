@@ -17,13 +17,22 @@ export default function Valores() {
   const [motivo, setMotivo] = useState('')
   const [tema, setTema] = useState<'light' | 'dark'>('light')
 
-  // Armazena todos os valores salvos
   const [valoresFixos, setValoresFixos] = useState<number[]>(Array(12).fill(0))
   const [valoresAvulsos, setValoresAvulsos] = useState<number[]>(Array(12).fill(0))
   const [motivosFixos, setMotivosFixos] = useState<string[]>(Array(12).fill(''))
   const [motivosAvulsos, setMotivosAvulsos] = useState<string[]>(Array(12).fill(''))
 
+  // Inicializa senha padrão caso não exista
+  const inicializarSenha = () => {
+    const senhaSalva = localStorage.getItem('senhaExcluir')
+    if (!senhaSalva) {
+      localStorage.setItem('senhaExcluir', '1234') // senha padrão inicial
+    }
+  }
+
   useEffect(() => {
+    inicializarSenha()
+
     const temaSalvo = localStorage.getItem('tema') as 'light' | 'dark' | null
     if (temaSalvo) setTema(temaSalvo)
 
@@ -39,7 +48,6 @@ export default function Valores() {
     setMotivosAvulsos(motivosAvulsosSalvos.length ? motivosAvulsosSalvos : Array(12).fill(''))
   }, [])
 
-  // Preenche automaticamente os valores já salvos ao trocar mês/tipo
   useEffect(() => {
     if (mes && tipo) {
       const indexMes = meses.indexOf(mes)
@@ -121,17 +129,41 @@ export default function Valores() {
     localStorage.setItem('tema', novoTema)
   }
 
+  // Apagar todos os dados com senha
   const apagarTodos = () => {
-    localStorage.removeItem('fixos')
-    localStorage.removeItem('avulsos')
-    localStorage.removeItem('motivosFixos')
-    localStorage.removeItem('motivosAvulsos')
-    setValoresFixos(Array(12).fill(0))
-    setValoresAvulsos(Array(12).fill(0))
-    setMotivosFixos(Array(12).fill(''))
-    setMotivosAvulsos(Array(12).fill(''))
-    alert('Todos os dados foram apagados.')
-    router.push('/')
+    const senhaDigitada = prompt('Digite a senha para apagar todos os dados:')
+    const senhaCorreta = localStorage.getItem('senhaExcluir')
+
+    if (senhaDigitada === senhaCorreta) {
+      localStorage.removeItem('fixos')
+      localStorage.removeItem('avulsos')
+      localStorage.removeItem('motivosFixos')
+      localStorage.removeItem('motivosAvulsos')
+      setValoresFixos(Array(12).fill(0))
+      setValoresAvulsos(Array(12).fill(0))
+      setMotivosFixos(Array(12).fill(''))
+      setMotivosAvulsos(Array(12).fill(''))
+      alert('Todos os dados foram apagados.')
+      router.push('/')
+    } else if (senhaDigitada !== null) {
+      alert('Senha incorreta. A exclusão foi cancelada.')
+    }
+  }
+
+  // Alterar senha
+  const alterarSenha = () => {
+    const senhaAtual = prompt('Digite a senha atual:')
+    const senhaCorreta = localStorage.getItem('senhaExcluir')
+
+    if (senhaAtual === senhaCorreta) {
+      const novaSenha = prompt('Digite a nova senha:')
+      if (novaSenha) {
+        localStorage.setItem('senhaExcluir', novaSenha)
+        alert('Senha alterada com sucesso!')
+      }
+    } else {
+      alert('Senha atual incorreta.')
+    }
   }
 
   return (
@@ -140,6 +172,7 @@ export default function Valores() {
         <button onClick={() => router.push('/')} className="botao-dashboard">🏠 Dashboard</button>
         <button onClick={alternarTema} className="botao-neon">☾/☼ Tema</button>
         <button onClick={apagarTodos} className="botao-apagar1">🗑️ Apagar Todos</button>
+        
       </header>
 
       <section className="form-box">
@@ -197,11 +230,11 @@ export default function Valores() {
           <div className="botoes-acao">
             <button type="submit" className="salvar-btn">💾 Salvar</button>
             <button type="button" onClick={handleEditar} className="salvar-btn">✏️ Editar</button>
+            <button onClick={alterarSenha} className="alterar-tema">🔑 Alterar Senha</button>
           </div>
         </form>
       </section>
 
-      {/* Tabela de valores já salvos */}
       <section className="tabela-valores">
         <h2>Valores Salvos</h2>
         <table>
