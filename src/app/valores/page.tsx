@@ -170,7 +170,7 @@ export default function Valores() {
     <main className={tema === 'dark' ? 'tema-escuro' : 'tema-claro'}>
       <header className="botao-container">
         <button onClick={() => router.push('/')} className="botao-dashboard">🏠 Dashboard</button>
-        <button onClick={alternarTema} className="botao-neon">☾/☼ Tema</button>
+        
         <button onClick={apagarTodos} className="botao-apagar1">🗑️ Apagar Todos</button>
         
       </header>
@@ -230,7 +230,7 @@ export default function Valores() {
           <div className="botoes-acao">
             <button type="submit" className="salvar-btn">💾 Salvar</button>
             <button type="button" onClick={handleEditar} className="salvar-btn">✏️ Editar</button>
-            <button onClick={alterarSenha} className="alterar-tema">🔑 Alterar Senha</button>
+            
           </div>
         </form>
       </section>

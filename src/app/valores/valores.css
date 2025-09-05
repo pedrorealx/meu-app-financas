@@ -243,3 +243,25 @@ input:focus, select:focus {
   color: #f0f0f0;
   transform: scale(1.05);
 }
+
+.alterar-senha {
+  margin-top: 1rem;
+   width: 150px;  /* largura */
+  padding: 2px 0; /* altura */
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 2px solid #555; /* cinza escuro */
+  color: #ffffff;
+  background: linear-gradient(15deg, #444, #666); /* gradiente de cinza escuro */
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0px;
+  box-shadow: 0 0 8px #333, 0 0 12px #555 inset; /* sombra suave cinza */
+  transition: all 0.3s ease;
+}
+
+.alterar-senha:hover {
+  background: linear-gradient(15deg, #555, #777);
+  box-shadow: 0 0 10px #444, 0 0 15px #666 inset;
+}

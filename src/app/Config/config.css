@@ -1,0 +1,80 @@
+/* ============================ */
+/* BASE TEMAS */
+/* ============================ */
+.tema-claro {
+  background: linear-gradient(135deg, #f9f9f9, #eaeaea);
+  color: #222;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+.tema-escuro {
+  background: linear-gradient(135deg, #1a1a1a, #333);
+  color: #f1f1f1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* ============================ */
+/* CONTAINER DE BOTÕES */
+/* ============================ */
+.botoes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 300px;
+}
+
+/* ============================ */
+/* BOTÕES PADRÃO */
+/* ============================ */
+.botao-padrao {
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(145deg, #4a90e2, #357abd);
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.4s ease;
+}
+
+.botao-padrao:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  background: linear-gradient(145deg, #5aa0f2, #4688d1);
+}
+
+/* ============================ */
+/* BOTÃO APAGAR / RESETAR */
+/* ============================ */
+.botao-apagar1 {
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(145deg, #e74c3c, #c0392b);
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.4s ease;
+}
+
+.botao-apagar1:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  background: linear-gradient(145deg, #ff5e4d, #d84335);
+}

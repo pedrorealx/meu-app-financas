@@ -146,7 +146,7 @@ export default function Home() {
           <div className="links">
             <a href="#"><i className="fas fa-home"></i>Home</a>
             <a href="/valores"><i className="fas fa-plus"></i>Adicionar Valores</a>
-            <a href="#"><i className="fas fa-envelope"></i>Messages</a>
+            <a href="/Config"><i className="fas fa-envelope"></i>Configurações</a>
             <a href="#"><i className="fas fa-bell"></i>Notification</a>
             
             <a href="/login"><i className="fas fa-login"></i>Tela de Login</a>

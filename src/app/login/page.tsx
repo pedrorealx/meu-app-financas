@@ -1,11 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Line } from 'react-chartjs-2'
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
 
-// Registrando módulos do Chart.js
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
 export default function Login() {
@@ -13,6 +12,18 @@ export default function Login() {
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
   const [dark, setDark] = useState(false)
+
+  // Valores padrão do localStorage
+  const [emailSalvo, setEmailSalvo] = useState('teste@teste.com')
+  const [senhaSalva, setSenhaSalva] = useState('123456')
+
+  useEffect(() => {
+    const emailLocal = localStorage.getItem('emailLogin')
+    const senhaLocal = localStorage.getItem('senhaLogin')
+
+    if (emailLocal) setEmailSalvo(emailLocal)
+    if (senhaLocal) setSenhaSalva(senhaLocal)
+  }, [])
 
   function alternarTema() {
     setDark(!dark)
@@ -32,8 +43,8 @@ export default function Login() {
   }
 
   function handleLogin() {
-    if (email === 'teste@teste.com' && senha === '123456') {
-      router.push('/page') // redireciona para o dashboard
+    if (email === emailSalvo && senha === senhaSalva) {
+      router.push('/page') // dashboard
     } else {
       alert('E-mail ou senha incorretos!')
     }
@@ -46,8 +57,8 @@ export default function Login() {
       alignItems: 'center',
       height: '100vh',
       background: dark
-        ? 'linear-gradient(135deg, #2c3e50, #000000)' // tema escuro
-        : 'linear-gradient(135deg, #e0f7fa, #ffffff)' // tema claro
+        ? 'linear-gradient(135deg, #2c3e50, #000000)'
+        : 'linear-gradient(135deg, #e0f7fa, #ffffff)'
     }}>
       <div style={{
         display: 'flex',
@@ -60,7 +71,6 @@ export default function Login() {
         width: '100%',
         transition: 'all 0.3s ease'
       }}>
-
         {/* Botão de alternar tema */}
         <div className="flex gap-2 mb-4" style={{ position: 'absolute', top: 20, right: 20 }}>
           <button onClick={alternarTema} className="botao-neon">☾/☼</button>
