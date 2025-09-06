@@ -131,7 +131,7 @@ export default function Home() {
       
       {/* Botões do topo */}
       <div className="flex gap-2 mb-4">
-        
+        <button onClick={alternarTema} className="botao-neon">☾/☼ Tema</button>
         <button onClick={() => setMenuAberto(!menuAberto)} className="botao-config">☰ Menu</button>
       </div>
 
