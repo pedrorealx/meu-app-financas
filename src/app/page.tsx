@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { Line, Bar } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
@@ -13,7 +13,6 @@ import {
   Tooltip,
   Legend
 } from 'chart.js'
-import './globals.css'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 
@@ -26,18 +25,16 @@ const meses = [
 ]
 
 export default function Home() {
-  const router = useRouter()
   const [fixos, setFixos] = useState<number[]>([])
   const [avulsos, setAvulsos] = useState<number[]>([])
   const [tema, setTema] = useState<'light' | 'dark'>('light')
   const [menuAberto, setMenuAberto] = useState(false)
   const [dataSelecionada, setDataSelecionada] = useState<Date | null>(new Date())
 
-  // Inicializa senha padrão caso não exista
   const inicializarSenha = () => {
     const senhaSalva = localStorage.getItem('senhaExcluir')
     if (!senhaSalva) {
-      localStorage.setItem('senhaExcluir', '1234') // senha padrão inicial
+      localStorage.setItem('senhaExcluir', '1234')
     }
   }
 
@@ -62,21 +59,6 @@ export default function Home() {
     const novoTema = tema === 'light' ? 'dark' : 'light'
     setTema(novoTema)
     localStorage.setItem('tema', novoTema)
-  }
-
-  // Função para alterar a senha
-  const alterarSenha = () => {
-    const senhaAtual = prompt('Digite a senha atual:')
-    const senhaCorreta = localStorage.getItem('senhaExcluir')
-    if (senhaAtual === senhaCorreta) {
-      const novaSenha = prompt('Digite a nova senha:')
-      if (novaSenha) {
-        localStorage.setItem('senhaExcluir', novaSenha)
-        alert('Senha alterada com sucesso!')
-      }
-    } else {
-      alert('Senha atual incorreta.')
-    }
   }
 
   const totalFixos = fixos.reduce((acc, val) => acc + val, 0)
@@ -116,20 +98,21 @@ export default function Home() {
       {
         label: 'Gastos Fixos (R$)',
         data: fixos,
-        backgroundColor: corFixos,
+        backgroundColor: corFixos
       },
       {
         label: 'Gastos Avulsos (R$)',
         data: avulsos,
-        backgroundColor: corAvulsos,
+        backgroundColor: corAvulsos
       }
     ]
   }
 
   return (
-    <main className={tema === 'dark' ? 'tema-escuro' : 'tema-claro'} style={{ transition: 'background-color 0.4s ease, color 0.4s ease', minHeight: '100vh', padding: '1rem' }}>
-      
-      {/* Botões do topo */}
+    <main className={tema === 'dark' ? 'tema-escuro' : 'tema-claro'}
+      style={{ transition: 'background-color 0.4s ease, color 0.4s ease', minHeight: '100vh', padding: '1rem' }}>
+
+      {/* Botões topo */}
       <div className="flex gap-2 mb-4">
         <button onClick={alternarTema} className="botao-neon">☾/☼ Tema</button>
         <button onClick={() => setMenuAberto(!menuAberto)} className="botao-config">☰ Menu</button>
@@ -144,17 +127,15 @@ export default function Home() {
             <p>teste@teste.com</p>
           </div>
           <div className="links">
-            <a href="#"><i className="fas fa-home"></i>Home</a>
-            <a href="/valores"><i className="fas fa-plus"></i>Adicionar Valores</a>
-            <a href="/Config"><i className="fas fa-envelope"></i>Configurações</a>
-            <a href="#"><i className="fas fa-bell"></i>Notification</a>
-            
-            <a href="/login"><i className="fas fa-login"></i>Tela de Login</a>
+            <Link href="/">Home</Link>
+            <Link href="/valores">Adicionar Valores</Link>
+            <Link href="/Config">Configurações</Link>
+            <Link href="/login">Tela de Login</Link>
           </div>
         </div>
       )}
 
-      <h1 className="text-2xl font-bold mb-4">DashBoard Financeiro</h1>
+      <h1 className="text-2xl font-bold mb-4">Dashboard Financeiro</h1>
 
       <div className="cards-container">
         <section className="card-info">
@@ -182,6 +163,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+
     </main>
   )
 }

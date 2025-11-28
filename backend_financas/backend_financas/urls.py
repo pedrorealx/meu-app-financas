@@ -16,13 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.http import HttpResponse
-
-def home(request):
-    return HttpResponse("Olá! Seu projeto Django está funcionando.")
+from valores.views import login_api
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home),
-    
+    path('api/login/', login_api),
 ]
+

@@ -3,30 +3,45 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Line } from 'react-chartjs-2'
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
 export default function Login() {
   const router = useRouter()
+
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
   const [dark, setDark] = useState(false)
 
-  // Valores padrão do localStorage
   const [emailSalvo, setEmailSalvo] = useState('teste@teste.com')
-  const [senhaSalva, setSenhaSalva] = useState('123456')
+  const [senhaSalva, setSenhaSalva] = useState('150105')
 
   useEffect(() => {
-    const emailLocal = localStorage.getItem('emailLogin')
-    const senhaLocal = localStorage.getItem('senhaLogin')
+    if (typeof window !== 'undefined') {
+      const emailLocal = localStorage.getItem('emailLogin')
+      const senhaLocal = localStorage.getItem('senhaLogin')
+      const temaLocal = localStorage.getItem('temaLogin')
 
-    if (emailLocal) setEmailSalvo(emailLocal)
-    if (senhaLocal) setSenhaSalva(senhaLocal)
+      if (emailLocal) setEmailSalvo(emailLocal)
+      if (senhaLocal) setSenhaSalva(senhaLocal)
+      if (temaLocal) setDark(temaLocal === 'dark')
+    }
   }, [])
 
   function alternarTema() {
-    setDark(!dark)
+    const novoTema = !dark
+    setDark(novoTema)
+    localStorage.setItem('temaLogin', novoTema ? 'dark' : 'light')
   }
 
   const data = {
@@ -44,7 +59,7 @@ export default function Login() {
 
   function handleLogin() {
     if (email === emailSalvo && senha === senhaSalva) {
-      router.push('/page') // dashboard
+      router.push('/')
     } else {
       alert('E-mail ou senha incorretos!')
     }
@@ -60,6 +75,7 @@ export default function Login() {
         ? 'linear-gradient(135deg, #2c3e50, #000000)'
         : 'linear-gradient(135deg, #e0f7fa, #ffffff)'
     }}>
+
       <div style={{
         display: 'flex',
         background: dark ? '#1e1e1e' : '#fff',
@@ -69,57 +85,49 @@ export default function Login() {
         overflow: 'hidden',
         maxWidth: '900px',
         width: '100%',
-        transition: 'all 0.3s ease'
+        position: 'relative'
       }}>
-        {/* Botão de alternar tema */}
-        <div className="flex gap-2 mb-4" style={{ position: 'absolute', top: 20, right: 20 }}>
-          <button onClick={alternarTema} className="botao-neon">☾/☼</button>
-        </div>
+
+        {/* Botão Tema */}
+        <button
+          onClick={alternarTema}
+          style={{
+            position: 'absolute',
+            top: 15,
+            right: 15,
+            borderRadius: '50%',
+            border: 'none',
+            padding: '10px',
+            cursor: 'pointer',
+            background: dark ? '#333' : '#eee'
+          }}
+        >
+          ☾ / ☼
+        </button>
 
         {/* Formulário */}
         <div style={{ flex: 1, padding: '40px' }}>
-          <h2 style={{ marginBottom: '20px' }}>Acesse sua conta</h2>
+          <h2>Acesse sua conta</h2>
+
           <input
             type="email"
             placeholder="E-mail"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{
-              width: '100%',
-              padding: '10px',
-              marginBottom: '15px',
-              border: '1px solid #ccc',
-              borderRadius: '8px',
-              background: dark ? '#2b2b2b' : '#fff',
-              color: dark ? '#fff' : '#000'
-            }}
+            onChange={e => setEmail(e.target.value)}
+            style={estiloInput(dark)}
           />
+
           <input
             type="password"
             placeholder="Senha"
             value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            style={{
-              width: '100%',
-              padding: '10px',
-              marginBottom: '15px',
-              border: '1px solid #ccc',
-              borderRadius: '8px',
-              background: dark ? '#2b2b2b' : '#fff',
-              color: dark ? '#fff' : '#000'
-            }}
+            onChange={e => setSenha(e.target.value)}
+            style={estiloInput(dark)}
           />
+
           <button
             onClick={handleLogin}
-            style={{
-              width: '100%',
-              padding: '10px',
-              background: '#4BC0C0',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '8px',
-              cursor: 'pointer'
-            }}
+            style={estiloBotao}
           >
             Entrar
           </button>
@@ -128,14 +136,36 @@ export default function Login() {
         {/* Gráfico */}
         <div style={{
           flex: 1,
-          background: dark ? '#121212' : '#f9f9f9',
+          background: dark ? '#121212' : '#f4f4f4',
           padding: '30px',
-          transition: 'all 0.3s ease'
         }}>
-          <h3 style={{ textAlign: 'center', marginBottom: '20px' }}>Gastos Recentes</h3>
+          <h3 style={{ textAlign: 'center' }}>Gastos Recentes</h3>
           <Line data={data} />
         </div>
+
       </div>
     </div>
   )
+}
+
+function estiloInput(dark: boolean) {
+  return {
+    width: '100%',
+    padding: '10px',
+    marginBottom: '15px',
+    borderRadius: '8px',
+    border: '1px solid #ccc',
+    background: dark ? '#2b2b2b' : '#fff',
+    color: dark ? '#fff' : '#000'
+  }
+}
+
+const estiloBotao = {
+  width: '100%',
+  padding: '10px',
+  background: '#4BC0C0',
+  color: '#fff',
+  border: 'none',
+  borderRadius: '8px',
+  cursor: 'pointer'
 }

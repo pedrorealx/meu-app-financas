@@ -1,24 +1,27 @@
 from django.db import models
 
-class Topic(models.Model):
-    """Um assunto sobre o qual o usuário está aprendendo"""
-    text = models.CharField(max_length=200)
-    date_added = models.DateField(auto_now_add=True)
+class Login(models.Model):
+    email = models.EmailField(unique=True)
+    senha = models.CharField(max_length=100)
 
     def __str__(self):
-        """Devolve uma representação em string do modelo"""
-        return self.text
+        return self.email
 
 
-class Entry(models.Model):
-    """Algo específico aprendido sobre um assunto"""
-    topic = models.ForeignKey("Topic", on_delete=models.CASCADE)
-    text = models.TextField()
-    date_added = models.DateField(auto_now_add=True)
+class Valor(models.Model):
+    MES_CHOICES = [
+        ('Janeiro','Janeiro'), ('Fevereiro','Fevereiro'), ('Março','Março'),
+        ('Abril','Abril'), ('Maio','Maio'), ('Junho','Junho'),
+        ('Julho','Julho'), ('Agosto','Agosto'), ('Setembro','Setembro'),
+        ('Outubro','Outubro'), ('Novembro','Novembro'), ('Dezembro','Dezembro')
+    ]
 
-    class Meta:
-        verbose_name_plural = 'entries'
+    TIPO_CHOICES = [
+        ('fixo', 'Fixo'),
+        ('avulso', 'Avulso')
+    ]
 
-    def __str__(self):
-        """Devolve uma representação string do modelo"""
-        return self.text[:50] + '...'
+    mes = models.CharField(max_length=20, choices=MES_CHOICES)
+    tipo = models.CharField(max_length=10, choices=TIPO_CHOICES)
+    valor = models.FloatField()
+    motivo = models.CharField(max_length=200)

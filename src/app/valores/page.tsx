@@ -1,6 +1,7 @@
 'use client'
+
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 import './valores.css'
 
@@ -10,7 +11,6 @@ const meses = [
 ]
 
 export default function Valores() {
-  const router = useRouter()
   const [mes, setMes] = useState('')
   const [tipo, setTipo] = useState('')
   const [valor, setValor] = useState(0)
@@ -22,11 +22,10 @@ export default function Valores() {
   const [motivosFixos, setMotivosFixos] = useState<string[]>(Array(12).fill(''))
   const [motivosAvulsos, setMotivosAvulsos] = useState<string[]>(Array(12).fill(''))
 
-  // Inicializa senha padrão caso não exista
   const inicializarSenha = () => {
     const senhaSalva = localStorage.getItem('senhaExcluir')
     if (!senhaSalva) {
-      localStorage.setItem('senhaExcluir', '1234') // senha padrão inicial
+      localStorage.setItem('senhaExcluir', '1234')
     }
   }
 
@@ -36,7 +35,6 @@ export default function Valores() {
     const temaSalvo = localStorage.getItem('tema') as 'light' | 'dark' | null
     if (temaSalvo) setTema(temaSalvo)
 
-    // Carregar valores salvos
     const fixos = JSON.parse(localStorage.getItem('fixos') || '[]')
     const avulsos = JSON.parse(localStorage.getItem('avulsos') || '[]')
     const motivosFixosSalvos = JSON.parse(localStorage.getItem('motivosFixos') || '[]')
@@ -55,7 +53,7 @@ export default function Valores() {
         if (tipo === 'fixo') {
           setValor(valoresFixos[indexMes] || 0)
           setMotivo(motivosFixos[indexMes] || '')
-        } else if (tipo === 'avulso') {
+        } else {
           setValor(valoresAvulsos[indexMes] || 0)
           setMotivo(motivosAvulsos[indexMes] || '')
         }
@@ -67,7 +65,7 @@ export default function Valores() {
     e.preventDefault()
 
     if (!mes || !tipo || valor <= 0 || !motivo) {
-      alert('Por favor, preencha todos os campos corretamente.')
+      alert('Preencha todos os campos corretamente.')
       return
     }
 
@@ -77,10 +75,8 @@ export default function Valores() {
     if (tipo === 'fixo') {
       const novosFixos = [...valoresFixos]
       const novosMotivos = [...motivosFixos]
-
       novosFixos[indexMes] = valor
       novosMotivos[indexMes] = motivo
-
       setValoresFixos(novosFixos)
       setMotivosFixos(novosMotivos)
 
@@ -89,10 +85,8 @@ export default function Valores() {
     } else {
       const novosAvulsos = [...valoresAvulsos]
       const novosMotivos = [...motivosAvulsos]
-
       novosAvulsos[indexMes] = valor
       novosMotivos[indexMes] = motivo
-
       setValoresAvulsos(novosAvulsos)
       setMotivosAvulsos(novosMotivos)
 
@@ -100,12 +94,12 @@ export default function Valores() {
       localStorage.setItem('motivosAvulsos', JSON.stringify(novosMotivos))
     }
 
-    alert(`Valor salvo para ${mes} (${tipo}) com motivo: ${motivo}`)
+    alert(`Valor salvo para ${mes} (${tipo})`)
   }
 
   const handleEditar = () => {
     if (!mes || !tipo) {
-      alert('Selecione mês e tipo para editar.')
+      alert('Selecione mês e tipo.')
       return
     }
 
@@ -120,117 +114,78 @@ export default function Valores() {
       setMotivo(motivosAvulsos[indexMes] || '')
     }
 
-    alert(`Modo de edição ativado para ${mes} (${tipo}). Agora altere os campos e clique em Salvar.`)
+    alert('Modo edição habilitado.')
   }
 
-  const alternarTema = () => {
-    const novoTema = tema === 'light' ? 'dark' : 'light'
-    setTema(novoTema)
-    localStorage.setItem('tema', novoTema)
-  }
-
-  // Apagar todos os dados com senha
   const apagarTodos = () => {
-    const senhaDigitada = prompt('Digite a senha para apagar todos os dados:')
+    const senhaDigitada = prompt('Digite a senha:')
     const senhaCorreta = localStorage.getItem('senhaExcluir')
 
     if (senhaDigitada === senhaCorreta) {
-      localStorage.removeItem('fixos')
-      localStorage.removeItem('avulsos')
-      localStorage.removeItem('motivosFixos')
-      localStorage.removeItem('motivosAvulsos')
-      setValoresFixos(Array(12).fill(0))
-      setValoresAvulsos(Array(12).fill(0))
-      setMotivosFixos(Array(12).fill(''))
-      setMotivosAvulsos(Array(12).fill(''))
-      alert('Todos os dados foram apagados.')
-      router.push('/')
-    } else if (senhaDigitada !== null) {
-      alert('Senha incorreta. A exclusão foi cancelada.')
+      localStorage.clear()
+      alert('Dados apagados.')
+      window.location.href = '/'
+    } else {
+      alert('Senha incorreta.')
     }
   }
 
-  // Alterar senha
   const alterarSenha = () => {
-    const senhaAtual = prompt('Digite a senha atual:')
+    const senhaAtual = prompt('Senha atual:')
     const senhaCorreta = localStorage.getItem('senhaExcluir')
 
     if (senhaAtual === senhaCorreta) {
-      const novaSenha = prompt('Digite a nova senha:')
+      const novaSenha = prompt('Nova senha:')
       if (novaSenha) {
         localStorage.setItem('senhaExcluir', novaSenha)
-        alert('Senha alterada com sucesso!')
+        alert('Senha alterada.')
       }
     } else {
-      alert('Senha atual incorreta.')
+      alert('Senha incorreta.')
     }
   }
 
   return (
     <main className={tema === 'dark' ? 'tema-escuro' : 'tema-claro'}>
       <header className="botao-container">
-        <button onClick={() => router.push('/')} className="botao-dashboard">🏠 Dashboard</button>
-        
+        <Link href="/" className="botao-dashboard">🏠 Dashboard</Link>
         <button onClick={apagarTodos} className="botao-apagar1">🗑️ Apagar Todos</button>
-        
       </header>
 
       <section className="form-box">
         <h1>Gerenciar Valores</h1>
+
         <form onSubmit={handleSalvar}>
-          <div className="input-row">
-            <label>
-              Mês
-              <select value={mes} onChange={(e) => setMes(e.target.value)} required>
-                <option value="">Selecione o Mês</option>
-                {meses.map((m) => (
-                  <option key={m} value={m}>{m}</option>
-                ))}
-              </select>
-            </label>
-          </div>
+          <label>
+            Mês
+            <select value={mes} onChange={e => setMes(e.target.value)}>
+              <option value="">Selecione</option>
+              {meses.map(m => <option key={m}>{m}</option>)}
+            </select>
+          </label>
 
-          <div className="input-row">
-            <label>
-              Tipo de Gasto
-              <select value={tipo} onChange={(e) => setTipo(e.target.value)} required>
-                <option value="">Selecione o Tipo</option>
-                <option value="fixo">Fixo</option>
-                <option value="avulso">Avulso</option>
-              </select>
-            </label>
-          </div>
+          <label>
+            Tipo
+            <select value={tipo} onChange={e => setTipo(e.target.value)}>
+              <option value="">Selecione</option>
+              <option value="fixo">Fixo</option>
+              <option value="avulso">Avulso</option>
+            </select>
+          </label>
 
-          <div className="input-row">
-            <label>
-              Valor (R$)
-              <input
-                type="number"
-                value={valor}
-                onChange={(e) => setValor(Number(e.target.value))}
-                placeholder="Ex: 500"
-                required
-              />
-            </label>
-          </div>
+          <label>
+            Valor
+            <input type="number" value={valor} onChange={e => setValor(+e.target.value)} />
+          </label>
 
-          <div className="input-row">
-            <label>
-              Motivo
-              <input
-                type="text"
-                value={motivo}
-                onChange={(e) => setMotivo(e.target.value)}
-                placeholder="Ex: Internet, Luz, Uber..."
-                required
-              />
-            </label>
-          </div>
+          <label>
+            Motivo
+            <input value={motivo} onChange={e => setMotivo(e.target.value)} />
+          </label>
 
           <div className="botoes-acao">
-            <button type="submit" className="salvar-btn">💾 Salvar</button>
-            <button type="button" onClick={handleEditar} className="salvar-btn">✏️ Editar</button>
-            
+            <button className="salvar-btn" type="submit">💾 Salvar</button>
+            <button className="salvar-btn" type="button" onClick={handleEditar}>✏️ Editar</button>
           </div>
         </form>
       </section>
@@ -241,10 +196,10 @@ export default function Valores() {
           <thead>
             <tr>
               <th>Mês</th>
-              <th>Fixo (R$)</th>
-              <th>Motivo Fixo</th>
-              <th>Avulso (R$)</th>
-              <th>Motivo Avulso</th>
+              <th>Fixo</th>
+              <th>Motivo</th>
+              <th>Avulso</th>
+              <th>Motivo</th>
             </tr>
           </thead>
           <tbody>
